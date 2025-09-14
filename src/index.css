@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Optional: Your custom styles here */
+.food-card {
+  /* stylelint-disable-next-line at-rule-no-unknown */
+  @apply bg-white dark:bg-gray-800;  /* Dark mode works here too */
+}
