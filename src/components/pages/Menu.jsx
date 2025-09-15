@@ -8,16 +8,16 @@ import { useCart } from '../../hooks/useCart'; // Corrected import path
 import { Link } from 'react-router-dom'; // Import Link
 
 const foodItems = [
-  { id: 1, name: 'Sunny Side Club', description: 'Good food to start your day right!', price: 8.99, image: '/src/assets/Foodlist/1.jpeg' },
-  { id: 2, name: 'The Cocktail Club', description: 'Premium Cocktails & Mocktails', price: 12.50, image: '/src/assets/Foodlist/2.jpeg' },
-  { id: 3, name: 'Suya Central', description: 'Savor the flavor of authentic suya', price: 15.00, image: '/src/assets/Foodlist/3.jpeg' },
-  { id: 4, name: 'The Night Train (TNT)', description: 'Delicious Late Night Cravings.', price: 10.75, image: '/src/assets/Foodlist/4.jpeg' },
-  { id: 5, name: 'Wrap City', description: 'Delicious Shawarma, Wraps & More!', price: 9.50, image: '/src/assets/Foodlist/5.jpeg' },
-  { id: 6, name: 'CHÕW Asian', description: 'Delicious & Authentic Asian Flavours', price: 14.25, image: '/src/assets/Foodlist/6.jpeg' },
+  { id: 1, name: 'fufu and Egusi with chicken', description: 'A savory West African dish featuring starchy fufu, rich egusi stew, and tender chicken!', price: 7500.00, image: '/src/assets/Foodlist/1.jpeg' },
+  { id: 2, name: 'fufu and Egusi with Fish', description: 'A flavorful West African meal with smooth fufu, nutty egusi stew, and succulent fish.', price: 6500.00, image: '/src/assets/Foodlist/2.jpeg' },
+  { id: 3, name: 'Beef Shawarma', description: 'Savory beef, cumin-marinated, slow-roasted, served with pickles, flatbread.', price: 3888.00, image: '/src/assets/Foodlist/3.jpeg' },
+  { id: 4, name: 'Chicken Shawarma', description: 'Juicy chicken, yogurt-marinated, spiced with paprika, wrapped with tahini, veggies.', price: 4000.00, image: '/src/assets/Foodlist/4.jpeg' },
+  { id: 5, name: 'Turkey Shawarma', description: 'Light turkey, kosher-friendly, tahini-dressed, spiced like chicken, popular in Israel.', price: 4500.00, image: '/src/assets/Foodlist/5.jpeg' },
+  { id: 6, name: 'Mixed Shawarma', description: 'Chicken and beef blend, spiced, hearty, wrapped with tahini, pickles.', price: 5500.00, image: '/src/assets/Foodlist/6.jpeg' },
   { id: 7, name: 'Pizza Supreme', description: 'Hot, cheesy, and loaded with toppings.', price: 18.99, image: '/src/assets/Foodlist/7.jpeg' },
   { id: 8, name: 'Salad Bowl', description: 'Fresh greens and healthy bites.', price: 7.99, image: '/src/assets/Foodlist/8.jpeg' },
-  { id: 9, name: 'Butter Chicken', description: 'Rich, creamy, and flavorful.', price: 16.50, image: '/src/assets/Foodlist/9.jpeg' },
-  { id: 10, name: 'Fish & Chips', description: 'Classic British comfort food.', price: 13.75, image: '/src/assets/Foodlist/10.jpeg' },
+  { id: 9, name: 'Goat Shawarma', description: 'Tender goat, simply seasoned, Saudi specialty, served with flatbread, veggies.', price: 5000.00, image: '/src/assets/Foodlist/9.jpeg' },
+  { id: 10, name: 'Coconut Rice', description: 'Creamy, aromatic rice cooked in coconut milk, paired with fish.', price: 13.75, image: '/src/assets/Foodlist/10.jpeg' },
   { id: 11, name: 'Ramen Bowl', description: 'Japanese noodles in savory broth.', price: 11.99, image: '/src/assets/Foodlist/11.jpeg' },
   { id: 12, name: 'BBQ Ribs', description: 'Smoky, tender, and delicious.', price: 22.00, image: '/src/assets/Foodlist/12.jpeg' },
   { id: 13, name: 'Curry Rice', description: 'Spicy and aromatic rice dishes.', price: 10.00, image: '/src/assets/Foodlist/13.jpeg' },
@@ -96,7 +96,7 @@ const Menu = () => {
             <h2 className="text-2xl font-bold text-pink-600 mb-2 transition-colors duration-200">{product.name}</h2>
             <p className="text-gray-600 text-base mb-4 line-clamp-2 italic">{product.description}</p>
             <div className="flex items-center justify-between w-full mb-2">
-              <span className="text-pink-600 font-bold text-xl">${product.price.toFixed(2)}</span>
+              <span className="text-pink-600 font-bold text-xl">₦{product.price.toFixed(2)}</span>
               {/* <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold shadow">{product.brand}</span> */} {/* Removed brand tag */}
             </div>
             <div className="flex gap-2 w-full mt-auto">
