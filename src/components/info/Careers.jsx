@@ -65,7 +65,7 @@ const Careers = () => {
             <div className="relative">
               <div className="bg-gradient-to-br from-red-50 to-orange-50 p-8 rounded-2xl">
                 <img
-                  src="/src/assets/food/food.jpg"
+                  src="/assets/food/food.jpg"
                   alt="Professional team collaboration"
                   className="w-full h-80 object-cover rounded-xl shadow-lg"
                 />
@@ -117,12 +117,12 @@ const Careers = () => {
 
           {/* Image Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <img src="/src/assets/food/food.jpg" alt="Work culture 1" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/src/assets/food/food2.jpg" alt="Work culture 2" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/src/assets/food/food3.jpg" alt="Work culture 3" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/src/assets/food/food4.jpg" alt="Work culture 4" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/src/assets/food/food5.jpg" alt="Work culture 5" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/src/assets/food/food.jpg" alt="Work culture 6" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
+            <img src="/assets/food/food.jpg" alt="Work culture 1" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
+            <img src="/assets/food/food2.jpg" alt="Work culture 2" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
+            <img src="/assets/food/food3.jpg" alt="Work culture 3" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
+            <img src="/assets/food/food4.jpg" alt="Work culture 4" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
+            <img src="/assets/food/food5.jpg" alt="Work culture 5" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
+            <img src="/assets/food/food.jpg" alt="Work culture 6" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
           </div>
         </div>
       </section>

@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 const productsData = [
   {
     id: 1,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'FoodMunch App',
     description: 'High quality chef prepared meals delivered at a click of a button.',
     buttonText: 'Download',
@@ -12,7 +12,7 @@ const productsData = [
   },
   {
     id: 2,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'FoodMunch Business',
     description: 'Corporate meal plans designed to boost employee satisfaction.',
     buttonText: 'View',
@@ -20,7 +20,7 @@ const productsData = [
   },
   {
     id: 3,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Event Catering',
     description: 'Personalised catering services for all types of events.',
     buttonText: 'Contact us',
@@ -28,7 +28,7 @@ const productsData = [
   },
   {
     id: 5,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Healthy Bowls',
     description: 'Nutritious and delicious bowls for a balanced meal.',
     buttonText: 'Order Now',
@@ -36,7 +36,7 @@ const productsData = [
   },
   {
     id: 6,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Gourmet Pizzas',
     description: 'Hand-tossed pizzas with premium ingredients.',
     buttonText: 'View Menu',
@@ -44,7 +44,7 @@ const productsData = [
   },
   {
     id: 7,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Dessert Delights',
     description: 'Sweet treats and pastries to satisfy your cravings.',
     buttonText: 'Browse',
@@ -52,7 +52,7 @@ const productsData = [
   },
   {
     id: 8,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Beverage Bar',
     description: 'Refreshing drinks, smoothies, and specialty coffees.',
     buttonText: 'Explore',
@@ -60,7 +60,7 @@ const productsData = [
   },
   {
     id: 9,
-    icon: '/src/assets/others/chef.jpeg', // Placeholder icon
+    icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Breakfast Delights',
     description: 'Start your day with our delicious breakfast options.',
     buttonText: 'Order Now',

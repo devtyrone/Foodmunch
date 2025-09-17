@@ -24,12 +24,12 @@ const Home = () => {
   const [showGallery, setShowGallery] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const foodImages = [
-    '/src/assets/food/food.jpg',
-    '/src/assets/food/food.jpg',
-    '/src/assets/food/food2.jpg',
-    '/src/assets/food/food3.jpg',
-    '/src/assets/food/food4.jpg',
-    '/src/assets/food/food5.jpg',
+    '/assets/food/food.jpg',
+    '/assets/food/food.jpg',
+    '/assets/food/food2.jpg',
+    '/assets/food/food3.jpg',
+    '/assets/food/food4.jpg',
+    '/assets/food/food5.jpg',
   ];
 
   // --- Effects ---
@@ -171,7 +171,7 @@ export default Home;
 
 // --- MarqueeGrid Component ---
 // Constants for MarqueeGrid
-const foodListImages = Array.from({length: 31}, (_, i) => `/src/assets/Foodlist/${i+1}.jpeg`);
+const foodListImages = Array.from({length: 31}, (_, i) => `/assets/Foodlist/${i+1}.jpeg`);
 
 const foodListInfo = [
   "Spicy Chicken Bowl", "Classic Burger", "Veggie Delight", "Seafood Platter", "Pasta Fiesta", "Sushi Combo", "Taco Trio", "Grilled Steak", "Paneer Tikka", "Falafel Wrap",

@@ -9,7 +9,7 @@ const restaurantData = [
   { 
     name: 'Sunny Side Club', 
     desc: 'Good food to start your day right!', 
-    img: '/src/assets/Foodlist/1.jpeg',
+    img: '/assets/Foodlist/1.jpeg',
     cuisine: 'American',
     priceRange: '2',
     rating: 4.5,
@@ -19,7 +19,7 @@ const restaurantData = [
   { 
     name: 'The Cocktail Club', 
     desc: 'Premium Cocktails & Mocktails', 
-    img: '/src/assets/Foodlist/2.jpeg',
+    img: '/assets/Foodlist/2.jpeg',
     cuisine: 'American',
     priceRange: '3',
     rating: 4.2,
@@ -29,7 +29,7 @@ const restaurantData = [
   { 
     name: 'Suya Central', 
     desc: 'Savor the flavor of authentic suya', 
-    img: '/src/assets/Foodlist/3.jpeg',
+    img: '/assets/Foodlist/3.jpeg',
     cuisine: 'African',
     priceRange: '2',
     rating: 4.7,
@@ -39,7 +39,7 @@ const restaurantData = [
   { 
     name: 'The Night Train (TNT)', 
     desc: 'Delicious Late Night Cravings.', 
-    img: '/src/assets/Foodlist/4.jpeg',
+    img: '/assets/Foodlist/4.jpeg',
     cuisine: 'American',
     priceRange: '2',
     rating: 4.3,
@@ -49,7 +49,7 @@ const restaurantData = [
   { 
     name: 'Wrap City', 
     desc: 'Delicious Shawarma, Wraps & More!', 
-    img: '/src/assets/Foodlist/5.jpeg',
+    img: '/assets/Foodlist/5.jpeg',
     cuisine: 'Middle Eastern',
     priceRange: '2',
     rating: 4.4,
@@ -59,7 +59,7 @@ const restaurantData = [
   { 
     name: 'CHÕW Asian', 
     desc: 'Delicious & Authentic Asian Flavours', 
-    img: '/src/assets/Foodlist/6.jpeg',
+    img: '/assets/Foodlist/6.jpeg',
     cuisine: 'Asian',
     priceRange: '3',
     rating: 4.6,
@@ -69,7 +69,7 @@ const restaurantData = [
   { 
     name: 'Pizza Supreme', 
     desc: 'Hot, cheesy, and loaded with toppings.', 
-    img: '/src/assets/Foodlist/7.jpeg',
+    img: '/assets/Foodlist/7.jpeg',
     cuisine: 'Italian',
     priceRange: '2',
     rating: 4.1,
@@ -79,7 +79,7 @@ const restaurantData = [
   { 
     name: 'Salad Bowl', 
     desc: 'Fresh greens and healthy bites.', 
-    img: '/src/assets/Foodlist/8.jpeg',
+    img: '/assets/Foodlist/8.jpeg',
     cuisine: 'American',
     priceRange: '2',
     rating: 4.0,
@@ -89,7 +89,7 @@ const restaurantData = [
   { 
     name: 'Butter Chicken', 
     desc: 'Rich, creamy, and flavorful.', 
-    img: '/src/assets/Foodlist/9.jpeg',
+    img: '/assets/Foodlist/9.jpeg',
     cuisine: 'Indian',
     priceRange: '3',
     rating: 4.8,
@@ -99,7 +99,7 @@ const restaurantData = [
   { 
     name: 'Fish & Chips', 
     desc: 'Classic British comfort food.', 
-    img: '/src/assets/Foodlist/10.jpeg',
+    img: '/assets/Foodlist/10.jpeg',
     cuisine: 'British',
     priceRange: '2',
     rating: 4.2,
@@ -109,7 +109,7 @@ const restaurantData = [
   { 
     name: 'Ramen Bowl', 
     desc: 'Japanese noodles in savory broth.', 
-    img: '/src/assets/Foodlist/11.jpeg',
+    img: '/assets/Foodlist/11.jpeg',
     cuisine: 'Japanese',
     priceRange: '3',
     rating: 4.5,
@@ -119,7 +119,7 @@ const restaurantData = [
   { 
     name: 'BBQ Ribs', 
     desc: 'Smoky, tender, and delicious.', 
-    img: '/src/assets/Foodlist/12.jpeg',
+    img: '/assets/Foodlist/12.jpeg',
     cuisine: 'American',
     priceRange: '3',
     rating: 4.3,
@@ -129,7 +129,7 @@ const restaurantData = [
   { 
     name: 'Curry Rice', 
     desc: 'Spicy and aromatic rice dishes.', 
-    img: '/src/assets/Foodlist/13.jpeg',
+    img: '/assets/Foodlist/13.jpeg',
     cuisine: 'Indian',
     priceRange: '2',
     rating: 4.4,
@@ -139,7 +139,7 @@ const restaurantData = [
   { 
     name: 'Dumpling Basket', 
     desc: 'Steamed and fried dumplings.', 
-    img: '/src/assets/Foodlist/14.jpeg',
+    img: '/assets/Foodlist/14.jpeg',
     cuisine: 'Chinese',
     priceRange: '2',
     rating: 4.6,
@@ -149,7 +149,7 @@ const restaurantData = [
   { 
     name: 'Shawarma Roll', 
     desc: 'Middle Eastern wraps and rolls.', 
-    img: '/src/assets/Foodlist/15.jpeg',
+    img: '/assets/Foodlist/15.jpeg',
     cuisine: 'Middle Eastern',
     priceRange: '2',
     rating: 4.3,
@@ -159,7 +159,7 @@ const restaurantData = [
   { 
     name: 'Egg Fried Rice', 
     desc: 'Chinese-style fried rice.', 
-    img: '/src/assets/Foodlist/16.jpeg',
+    img: '/assets/Foodlist/16.jpeg',
     cuisine: 'Chinese',
     priceRange: '1',
     rating: 4.1,
@@ -169,7 +169,7 @@ const restaurantData = [
   { 
     name: 'Momo Platter', 
     desc: 'Nepalese dumplings and sauces.', 
-    img: '/src/assets/Foodlist/17.jpeg',
+    img: '/assets/Foodlist/17.jpeg',
     cuisine: 'Nepalese',
     priceRange: '2',
     rating: 4.7,
@@ -179,7 +179,7 @@ const restaurantData = [
   { 
     name: 'Kebab Mix', 
     desc: 'Grilled meats and veggies.', 
-    img: '/src/assets/Foodlist/18.jpeg',
+    img: '/assets/Foodlist/18.jpeg',
     cuisine: 'Middle Eastern',
     priceRange: '3',
     rating: 4.4,
@@ -189,7 +189,7 @@ const restaurantData = [
   { 
     name: 'Cheese Sandwich', 
     desc: 'Classic comfort food.', 
-    img: '/src/assets/Foodlist/19.jpeg',
+    img: '/assets/Foodlist/19.jpeg',
     cuisine: 'American',
     priceRange: '1',
     rating: 3.9,
@@ -199,7 +199,7 @@ const restaurantData = [
   { 
     name: 'Fruit Parfait', 
     desc: 'Layers of fruit and yogurt.', 
-    img: '/src/assets/Foodlist/20.jpeg',
+    img: '/assets/Foodlist/20.jpeg',
     cuisine: 'American',
     priceRange: '2',
     rating: 4.0,
@@ -209,7 +209,7 @@ const restaurantData = [
   { 
     name: 'Soup Special', 
     desc: 'Warm and hearty soups.', 
-    img: '/src/assets/Foodlist/21.jpeg',
+    img: '/assets/Foodlist/21.jpeg',
     cuisine: 'American',
     priceRange: '2',
     rating: 4.2,

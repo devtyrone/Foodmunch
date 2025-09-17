@@ -5,7 +5,7 @@ const ChefSpotlight = () => {
     name: 'Chef Henry Nneji',
     title: 'Head of Culinary & Restaurants',
     description: 'A culinary virtuoso with a distinguished background, Chef Henry Nneji, a Le Cordon Bleu-trained specialist and valedictorian, masterfully blends strategic acumen with innovative culinary artistry. His journey, marked by an unwavering passion for gastronomic excellence, has led him to create a unique culinary philosophy rooted in fresh, locally sourced ingredients and global flavors.',
-    image: '/src/assets/others/chef.jpeg', // Updated image path
+    image: '/assets/others/chef.jpeg', // Updated image path
   };
 
   return (

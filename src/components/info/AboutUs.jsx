@@ -6,31 +6,31 @@ const teamMembers = [
     id: 1,
     name: 'Jumai Abidoye',
     title: 'Delivery & Supply Chain Manager',
-    image: '/src/assets/others/chef.jpeg', // Placeholder image
+    image: '/assets/others/chef.jpeg', // Placeholder image
   },
   {
     id: 2,
     name: 'Mercy Oladimeji',
     title: 'Lead, Innovation & Restaurants',
-    image: '/src/assets/others/chef.jpeg', // Placeholder image
+    image: '/assets/others/chef.jpeg', // Placeholder image
   },
   {
     id: 3,
     name: 'Eric Okosa',
     title: 'Logistics Manager',
-    image: '/src/assets/others/chef.jpeg', // Placeholder image
+    image: '/assets/others/chef.jpeg', // Placeholder image
   },
   {
     id: 4,
     name: 'Henry Nneji',
     title: 'Chief Executive Officer',
-    image: '/src/assets/others/chef.jpeg', // Placeholder image
+    image: '/assets/others/chef.jpeg', // Placeholder image
   },
   {
     id: 5,
     name: 'Ovuoke Buluku',
     title: 'Chief Operations Officer',
-    image: '/src/assets/others/chef.jpeg', // Placeholder image
+    image: '/assets/others/chef.jpeg', // Placeholder image
   },
 ];
 
@@ -53,7 +53,7 @@ const AboutUs = () => {
         </div>
         <div className="relative max-w-5xl mx-auto mb-16">
           <img
-            src="/src/assets/food/food.jpg" // Placeholder image
+            src="/assets/food/food.jpg" // Placeholder image
             alt="Food Delivery Innovation"
             className="w-full h-[500px] object-cover rounded-3xl shadow-2xl"
           />
@@ -89,22 +89,22 @@ const AboutUs = () => {
           <h2 className="text-4xl font-extrabold text-gray-900 mb-12 text-center">The FoodMunch Journey</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/src/assets/food/food.jpg" alt="Startup" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food.jpg" alt="Startup" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">STARTUP</h3>
               <p className="text-gray-600">FoodMunch was founded to transform how people enjoy their favorite meals, focusing on delivering quality and variety with every order</p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/src/assets/food/food2.jpg" alt="Growth" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food2.jpg" alt="Growth" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">GROWTH</h3>
               <p className="text-gray-600">Through innovation and strategic partnerships, we've expanded our offerings to bring better food experiences to more people</p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/src/assets/food/food3.jpg" alt="Sustainability" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food3.jpg" alt="Sustainability" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">SUSTAINABILITY</h3>
               <p className="text-gray-600">With a commitment to quality, convenience, and exceptional service, we have become a go-to choice for our customers.</p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/src/assets/food/food4.jpg" alt="Expansion" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food4.jpg" alt="Expansion" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">EXPANSION</h3>
               <p className="text-gray-600">As we look ahead, our goal is to reach more communities enhancing our services, and continue delivering exceptional dining experiences</p>
             </div>
@@ -124,7 +124,7 @@ const AboutUs = () => {
       {/* New Section: Join us on our Journey (from previous HeroSection content) */}
       <section
         className="relative bg-cover h-screen flex items-center justify-center text-white w-full"
-        style={{ backgroundImage: 'url(/src/assets/others/end.png)', backgroundPosition: 'center 30%' }}
+        style={{ backgroundImage: 'url(/assets/others/end.png)', backgroundPosition: 'center 30%' }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">

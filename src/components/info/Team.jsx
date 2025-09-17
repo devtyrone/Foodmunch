@@ -7,7 +7,7 @@ const Team = () => {
       id: 1,
       name: "Sarah Johnson",
       position: "Chief Executive Officer",
-      image: "/src/assets/others/chef.jpeg",
+      image: "/assets/others/chef.jpeg",
       bio: "With over 15 years in the food industry, Sarah leads our vision of making quality food accessible to everyone. She previously served as VP of Operations at FreshDirect.",
       specialties: ["Strategic Planning", "Operations Management", "Team Leadership"],
       social: {
@@ -20,7 +20,7 @@ const Team = () => {
       id: 2,
       name: "Michael Chen",
       position: "Head Chef & Culinary Director",
-      image: "/src/assets/others/chef.jpeg",
+      image: "/assets/others/chef.jpeg",
       bio: "Award-winning chef with Michelin-star experience, Michael brings 20 years of culinary excellence to our kitchen. He's passionate about sustainable cooking and local ingredients.",
       specialties: ["Menu Development", "Quality Control", "Culinary Innovation"],
       social: {
@@ -33,7 +33,7 @@ const Team = () => {
       id: 3,
       name: "Emily Rodriguez",
       position: "Chief Technology Officer",
-      image: "/src/assets/others/chef.jpeg",
+      image: "/assets/others/chef.jpeg",
       bio: "Tech visionary with expertise in food delivery platforms. Emily has built scalable systems for major food companies and leads our digital transformation initiatives.",
       specialties: ["Technology Strategy", "Platform Development", "Data Analytics"],
       social: {
@@ -46,7 +46,7 @@ const Team = () => {
       id: 4,
       name: "David Thompson",
       position: "Head of Operations",
-      image: "/src/assets/others/chef.jpeg",
+      image: "/assets/others/chef.jpeg",
       bio: "Operations expert with a focus on efficiency and customer satisfaction. David ensures our delivery network runs smoothly and maintains our high service standards.",
       specialties: ["Supply Chain", "Logistics", "Process Optimization"],
       social: {
@@ -59,7 +59,7 @@ const Team = () => {
       id: 5,
       name: "Lisa Park",
       position: "Head of Marketing",
-      image: "/src/assets/others/chef.jpeg",
+      image: "/assets/others/chef.jpeg",
       bio: "Creative marketing leader with a passion for food and community. Lisa has built successful campaigns for major food brands and leads our customer engagement strategies.",
       specialties: ["Brand Strategy", "Digital Marketing", "Community Building"],
       social: {
@@ -72,7 +72,7 @@ const Team = () => {
       id: 6,
       name: "James Wilson",
       position: "Head of Customer Experience",
-      image: "/src/assets/others/chef.jpeg",
+      image: "/assets/others/chef.jpeg",
       bio: "Customer advocate with a background in hospitality and service excellence. James ensures every customer interaction exceeds expectations and builds lasting relationships.",
       specialties: ["Customer Service", "Experience Design", "Quality Assurance"],
       social: {
