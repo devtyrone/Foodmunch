@@ -298,28 +298,72 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* App Store Section */}
-              <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-4">Download our app</p>
-                <div className="flex flex-col space-y-3">
-                  <a href="#" aria-label="Download on the App Store" className="flex items-center justify-center p-2 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors">
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
-                      alt="Download on the App Store"
-                      className="h-10 object-contain"
-                      loading="lazy"
-                      decoding="async"
-                    />
+              {/* Premium App Store Section */}
+              <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+                <div className="text-center mb-6">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Download FoodMunch</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Get the best food delivery experience</p>
+                </div>
+                
+                <div className="flex flex-col space-y-4">
+                  {/* Premium App Store Button */}
+                  <a 
+                    href="#" 
+                    aria-label="Download on the App Store" 
+                    className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-200 via-gray-100 to-gray-300 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-0.5 hover:from-blue-500 hover:via-purple-500 hover:to-indigo-600 dark:hover:from-blue-600 dark:hover:via-purple-600 dark:hover:to-indigo-700 transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25"
+                  >
+                    <div className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-black rounded-xl px-5 py-4 flex items-center gap-4 transition-all duration-300 group-hover:from-gray-50 group-hover:via-white group-hover:to-gray-50 dark:group-hover:from-gray-800 dark:group-hover:via-gray-700 dark:group-hover:to-gray-900">
+                      {/* Apple Logo */}
+                      <div className="text-gray-800 dark:text-white text-2xl group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">
+                        <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                      </div>
+                      <div className="text-left flex-1">
+                        <div className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">Download on the</div>
+                        <div className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">App Store</div>
+                      </div>
+                      {/* Glow Effect */}
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-indigo-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-indigo-500/10 transition-all duration-500"></div>
+                    </div>
                   </a>
-                  <a href="#" aria-label="Get it on Google Play" className="flex items-center justify-center p-2 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors">
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                      alt="Get it on Google Play"
-                      className="h-10 object-contain"
-                      loading="lazy"
-                      decoding="async"
-                    />
+
+                  {/* Premium Google Play Button */}
+                  <a 
+                    href="#" 
+                    aria-label="Get it on Google Play" 
+                    className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-200 via-gray-100 to-gray-300 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-0.5 hover:from-green-500 hover:via-blue-500 hover:to-purple-600 dark:hover:from-green-600 dark:hover:via-blue-600 dark:hover:to-purple-600 transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-green-500/25"
+                  >
+                    <div className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-black rounded-xl px-5 py-4 flex items-center gap-4 transition-all duration-300 group-hover:from-gray-50 group-hover:via-white group-hover:to-gray-50 dark:group-hover:from-gray-800 dark:group-hover:via-gray-700 dark:group-hover:to-gray-900">
+                      {/* Google Play Logo */}
+                      <div className="text-gray-800 dark:text-white text-2xl group-hover:text-green-600 dark:group-hover:text-green-300 transition-colors duration-300">
+                        <svg viewBox="0 0 24 24" className="w-8 h-8">
+                          <path fill="currentColor" d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5Z"/>
+                          <path fill="currentColor" d="M16.81,15.12L6.05,21.34C5.79,21.5 5.50,21.57 5.21,21.57C4.60,21.57 4.03,21.26 3.84,21.85L13.69,12L16.81,15.12Z"/>
+                          <path fill="currentColor" d="M20.16,10.85C20.5,11.05 20.75,11.36 20.75,11.75C20.75,12.14 20.5,12.45 20.16,12.65L16.81,15.12L13.69,12L16.81,8.88L20.16,10.85Z"/>
+                          <path fill="currentColor" d="M16.81,8.88L3.84,2.15C4.03,1.74 4.60,1.43 5.21,1.43C5.50,1.43 5.79,1.50 6.05,1.66L16.81,8.88Z"/>
+                        </svg>
+                      </div>
+                      <div className="text-left flex-1">
+                        <div className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">Get it on</div>
+                        <div className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-colors duration-300">Google Play</div>
+                      </div>
+                      {/* Glow Effect */}
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-green-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-green-500/10 group-hover:via-blue-500/10 group-hover:to-purple-500/10 transition-all duration-500"></div>
+                    </div>
                   </a>
+                </div>
+
+                {/* Download Stats */}
+                <div className="mt-6 flex items-center justify-center gap-6 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-1">
+                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                    <span>4.8★ Rating</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    <span>10k+ Downloads</span>
+                  </div>
                 </div>
               </div>
             </div>

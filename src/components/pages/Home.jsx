@@ -12,6 +12,7 @@ import React, { useRef, useEffect } from 'react';
 import { useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FaApple, FaGooglePlay } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import ProductsSection from '../sections/ProductsSection';
 import ChefSpotlight from '../sections/ChefSpotlight';
 import TestimonialsSection from '../sections/TestimonialsSection';
@@ -132,8 +133,63 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Stats Bar */}
-          <div className="flex flex-wrap justify-center gap-8 py-6">
+          {/* App Store Buttons and Trust Badge - Moved Up */}
+          <div className="flex flex-col items-center gap-4 mt-4">
+            {/* Trust Badge - Moved Up */}
+            <div className="flex justify-center">
+              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-yellow-100 border border-orange-200 text-orange-700 px-6 py-2 rounded-full text-sm font-semibold shadow-sm">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                Supported by <span className="font-bold">Alpha groups</span>
+              </span>
+            </div>
+
+            {/* Premium CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              {/* Premium App Store Button */}
+              <a 
+                href="#" 
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 via-gray-50 to-white dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-0.5 hover:from-blue-500 hover:via-purple-500 hover:to-indigo-600 transition-all duration-500 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20" 
+                aria-label="Download on the App Store"
+              >
+                <div className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-black rounded-xl px-4 py-2.5 flex items-center gap-3 transition-all duration-300 group-hover:from-gray-50 group-hover:via-white group-hover:to-gray-50 dark:group-hover:from-gray-800 dark:group-hover:via-gray-700 dark:group-hover:to-gray-900">
+                  <div className="text-gray-800 dark:text-white text-xl group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">
+                    <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
+                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">Download on the</div>
+                    <div className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">App Store</div>
+                  </div>
+                </div>
+              </a>
+
+              {/* Premium Google Play Button */}
+              <a 
+                href="#" 
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 via-gray-50 to-white dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-0.5 hover:from-green-500 hover:via-blue-500 hover:to-purple-600 transition-all duration-500 transform hover:scale-105 hover:shadow-lg hover:shadow-green-500/20" 
+                aria-label="Get it on Google Play"
+              >
+                <div className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-black rounded-xl px-4 py-2.5 flex items-center gap-3 transition-all duration-300 group-hover:from-gray-50 group-hover:via-white group-hover:to-gray-50 dark:group-hover:from-gray-800 dark:group-hover:via-gray-700 dark:group-hover:to-gray-900">
+                  <div className="text-gray-800 dark:text-white text-xl group-hover:text-green-600 dark:group-hover:text-green-300 transition-colors duration-300">
+                    <svg viewBox="0 0 24 24" className="w-6 h-6">
+                      <path fill="#4285F4" d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5Z"/>
+                      <path fill="#34A853" d="M16.81,15.12L6.05,21.34C5.79,21.5 5.50,21.57 5.21,21.57C4.60,21.57 4.03,21.26 3.84,21.85L13.69,12L16.81,15.12Z"/>
+                      <path fill="#FBBC04" d="M20.16,10.85C20.5,11.05 20.75,11.36 20.75,11.75C20.75,12.14 20.5,12.45 20.16,12.65L16.81,15.12L13.69,12L16.81,8.88L20.16,10.85Z"/>
+                      <path fill="#EA4335" d="M16.81,8.88L3.84,2.15C4.03,1.74 4.60,1.43 5.21,1.43C5.50,1.43 5.79,1.50 6.05,1.66L16.81,8.88Z"/>
+                    </svg>
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">Get it on</div>
+                    <div className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-colors duration-300">Google Play</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {/* Stats Bar - Moved Down */}
+          <div className="flex flex-wrap justify-center gap-8 py-4 mt-2">
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-red-600">15+</div>
               <div className="text-sm text-gray-600">Top Restaurants</div>
@@ -146,28 +202,6 @@ const Home = () => {
               <div className="text-2xl md:text-3xl font-bold text-yellow-500">4.8★</div>
               <div className="text-sm text-gray-600">User Rating</div>
             </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="#" className="group bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
-              <FaApple className="text-xl" />
-              Download for iOS
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </a>
-            <a href="#" className="group bg-gray-900 hover:bg-black text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
-              <FaGooglePlay className="text-xl" />
-              Download for Android
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </a>
-          </div>
-
-          {/* Trust Badge */}
-          <div className="flex justify-center">
-            <span className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-yellow-100 border border-orange-200 text-orange-700 px-6 py-3 rounded-full text-sm font-semibold shadow-sm">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              Supported by <span className="font-bold">Alpha groups</span>
-            </span>
           </div>
         </div>
       </div>
@@ -291,14 +325,14 @@ const Home = () => {
           
           {/* Enhanced CTA Section */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-            <a href="/restaurants" className="group bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
+            <Link to="/restaurants" className="group bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
               Explore All Restaurants
               <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </a>
-            <a href="/menu" className="group border-2 border-gray-300 hover:border-red-500 text-gray-700 hover:text-red-600 font-semibold py-4 px-8 rounded-2xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
+            </Link>
+            <Link to="/menu" className="group border-2 border-gray-300 hover:border-red-500 text-gray-700 hover:text-red-600 font-semibold py-4 px-8 rounded-2xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
               Browse Menu
               <span className="group-hover:translate-x-1 transition-transform">📋</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -400,123 +434,288 @@ const Home = () => {
 };
 export default Home;
 
-// --- MarqueeGrid Component ---
-// Constants for MarqueeGrid
-const foodListImages = Array.from({length: 31}, (_, i) => `/assets/Foodlist/${i+1}.jpeg`);
+// --- Enhanced MarqueeGrid Component ---
+// Premium restaurant carousel with world-class smooth movement
+const restaurantImages = Array.from({length: 20}, (_, i) => `/assets/Foodlist/${i+1}.jpeg`);
 
-const foodListInfo = [
-  "Spicy Chicken Bowl", "Classic Burger", "Veggie Delight", "Seafood Platter", "Pasta Fiesta", "Sushi Combo", "Taco Trio", "Grilled Steak", "Paneer Tikka", "Falafel Wrap",
-  "Pizza Supreme", "Salad Bowl", "Butter Chicken", "Fish & Chips", "Ramen Bowl", "BBQ Ribs", "Curry Rice", "Dumpling Basket", "Shawarma Roll", "Egg Fried Rice",
-  "Momo Platter", "Kebab Mix", "Cheese Sandwich", "Fruit Parfait", "Soup Special", "Noodle Box", "Chicken Wings", "Veggie Pizza", "Lamb Chops", "Prawn Curry", "Steak Frites", "Veggie Burger"
+const restaurantInfo = [
+  "Amala Spot", "Bukka Hut", "Chicken Republic", "Domino's Pizza", "Five Continents", "Ibachi Chinese", "Kilimanjaro", "Martha's Kitchen", 
+  "Mr. Bigg's", "Saire Restaurant", "Tantalizers", "The Place", "Ultima Lounge", "Vintage Lounge", "Wimpy's", "Yellow Chilli", 
+  "Bliss Farm Kitchen", "Le Ville", "Tamberma", "Sheraton Hotel"
 ];
 
 /**
- * MarqueeGrid
- * A horizontally-scrolling, looping grid of restaurant cards.
- * - Auto-scrolls left via requestAnimationFrame
- * - Supports mouse/touch drag scrubbing (pauses during interaction)
+ * MarqueeGrid - World-Class Restaurant Carousel
+ * Features:
+ * - Buttery smooth 60fps animations with momentum physics
+ * - Elastic push-back with spring animations
+ * - Velocity-based momentum scrolling
+ * - Premium visual design with depth and shadows
+ * - Seamless infinite loop with no visible seams
  */
 function MarqueeGrid() {
   // --- State and Refs ---
   const marqueeRef = useRef(null);
+  const containerRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Animation state
   const offsetRef = useRef(0);
+  const velocityRef = useRef(0);
+  const targetOffsetRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  
+  // Interaction state
   const draggingRef = useRef(false);
   const startXRef = useRef(0);
   const startOffsetRef = useRef(0);
+  const lastMoveXRef = useRef(0);
+  const lastMoveTimeRef = useRef(0);
+  const momentumRef = useRef(0);
 
-  // --- Effects ---
+  // --- Premium Animation System ---
   useEffect(() => {
     const marquee = marqueeRef.current;
-    let offset = 0;
     let animationFrame;
-    let periodWidth = 0; // original content width (since content is duplicated)
-    if (marquee) {
-      periodWidth = marquee.scrollWidth / 2;
-      offset = 0;
-      offsetRef.current = offset;
-      marquee.style.transform = `translateX(${offset}px)`;
+    let cardWidth = 340; // Card width + gap
+    let totalWidth = 0;
+    let containerWidth = 0;
+
+    if (marquee && containerRef.current) {
+      totalWidth = restaurantImages.length * cardWidth;
+      containerWidth = containerRef.current.offsetWidth;
+      
+      // Initialize position
+      offsetRef.current = 0;
+      targetOffsetRef.current = 0;
+      marquee.style.transform = `translateX(${offsetRef.current}px)`;
     }
-    const animate = () => {
-      offset = offsetRef.current;
-      if (!isPaused && !draggingRef.current) {
-        // Move left and only wrap after movement to avoid hover-induced jumps
-        offset -= 1.2;
-        if (offset <= -periodWidth) {
-          offset += periodWidth;
+
+    const animate = (currentTime) => {
+      if (!lastTimeRef.current) lastTimeRef.current = currentTime;
+      const deltaTime = Math.min(currentTime - lastTimeRef.current, 16.67); // Cap at 60fps
+      lastTimeRef.current = currentTime;
+
+      let currentOffset = offsetRef.current;
+      let targetOffset = targetOffsetRef.current;
+      let velocity = velocityRef.current;
+
+      if (!draggingRef.current) {
+        // Auto-scroll when not dragging
+        if (!isPaused && !isHovered) {
+          targetOffset -= 0.8; // Smooth auto-scroll speed
         }
+
+        // Apply momentum after drag release
+        if (momentumRef.current !== 0) {
+          targetOffset += momentumRef.current;
+          momentumRef.current *= 0.95; // Momentum decay
+          if (Math.abs(momentumRef.current) < 0.1) {
+            momentumRef.current = 0;
+          }
+        }
+
+        // Smooth interpolation with easing
+        const ease = 0.08; // Higher = more responsive, lower = smoother
+        const diff = targetOffset - currentOffset;
+        velocity = velocity * 0.9 + diff * ease; // Add momentum
+        currentOffset += velocity;
+
+        // Seamless infinite loop
+        const loopPoint = -totalWidth;
+        if (currentOffset <= loopPoint) {
+          currentOffset += totalWidth;
+          targetOffset += totalWidth;
+        } else if (currentOffset >= 0) {
+          currentOffset -= totalWidth;
+          targetOffset -= totalWidth;
+        }
+
+        offsetRef.current = currentOffset;
+        targetOffsetRef.current = targetOffset;
+        velocityRef.current = velocity;
       }
+
+      // Apply transform with hardware acceleration
       if (marquee) {
-        offsetRef.current = offset;
-        marquee.style.transform = `translateX(${offset}px)`;
+        marquee.style.transform = `translate3d(${currentOffset}px, 0, 0)`;
       }
+
       animationFrame = requestAnimationFrame(animate);
     };
-    animate();
-    return () => cancelAnimationFrame(animationFrame);
-  }, [isPaused]);
 
-  // --- Main Render (JSX) ---
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [isPaused, isHovered]);
+
+  // --- Enhanced Interaction Handlers ---
+  const handleInteractionStart = (clientX) => {
+    draggingRef.current = true;
+    startXRef.current = clientX;
+    startOffsetRef.current = offsetRef.current;
+    lastMoveXRef.current = clientX;
+    lastMoveTimeRef.current = Date.now();
+    momentumRef.current = 0;
+    velocityRef.current = 0;
+    setIsPaused(true);
+  };
+
+  const handleInteractionMove = (clientX) => {
+    if (!draggingRef.current) return;
+    
+    const currentTime = Date.now();
+    const deltaX = clientX - startXRef.current;
+    const timeDelta = currentTime - lastMoveTimeRef.current;
+    
+    // Calculate velocity for momentum
+    if (timeDelta > 0) {
+      const moveVelocity = (clientX - lastMoveXRef.current) / timeDelta;
+      velocityRef.current = moveVelocity * 16; // Scale for smooth momentum
+    }
+    
+    let newOffset = startOffsetRef.current + deltaX;
+    
+    // Elastic boundaries with spring-back
+    const cardWidth = 340;
+    const totalWidth = restaurantImages.length * cardWidth;
+    const elasticStrength = 0.3;
+    
+    if (newOffset > 0) {
+      newOffset = newOffset * elasticStrength; // Elastic push-back from right
+    } else if (newOffset < -totalWidth) {
+      const overflow = newOffset + totalWidth;
+      newOffset = -totalWidth + (overflow * elasticStrength); // Elastic push-back from left
+    }
+    
+    offsetRef.current = newOffset;
+    targetOffsetRef.current = newOffset;
+    
+    lastMoveXRef.current = clientX;
+    lastMoveTimeRef.current = currentTime;
+  };
+
+  const handleInteractionEnd = () => {
+    if (!draggingRef.current) return;
+    
+    draggingRef.current = false;
+    
+    // Apply momentum based on final velocity
+    const finalVelocity = velocityRef.current;
+    momentumRef.current = finalVelocity * 0.5; // Momentum multiplier
+    
+    // Spring back if outside bounds
+    const cardWidth = 340;
+    const totalWidth = restaurantImages.length * cardWidth;
+    
+    if (offsetRef.current > 0) {
+      targetOffsetRef.current = -cardWidth * 0.1; // Small bounce back
+      momentumRef.current = 0;
+    } else if (offsetRef.current < -totalWidth) {
+      targetOffsetRef.current = -totalWidth + cardWidth * 0.1; // Small bounce back
+      momentumRef.current = 0;
+    }
+    
+    setTimeout(() => setIsPaused(false), 100); // Brief pause before auto-scroll resumes
+  };
+
+  // --- Premium Card Component ---
+  const RestaurantCard = ({ image, name, index }) => (
+    <div 
+      className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:scale-105"
+      style={{ minWidth: '320px', width: '320px', height: '280px' }}
+    >
+      {/* Image Container with Overlay */}
+      <div className="relative h-48 overflow-hidden">
+        <img 
+          src={image} 
+          alt={name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          loading="lazy" 
+          decoding="async"
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        
+        {/* Floating Badge */}
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700 shadow-lg">
+          ⭐ 4.{Math.floor(Math.random() * 4) + 5}
+        </div>
+      </div>
+      
+      {/* Content */}
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+          {name}
+        </h3>
+        <p className="text-gray-600 text-sm mb-3">
+          Authentic flavors • Fresh ingredients
+        </p>
+        
+        {/* Action Row */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+            <span>Available now</span>
+          </div>
+          <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors transform hover:scale-105">
+            Order Now
+          </button>
+        </div>
+      </div>
+      
+      {/* Hover Glow Effect */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-red-500/0 via-orange-500/0 to-yellow-500/0 group-hover:from-red-500/5 group-hover:via-orange-500/5 group-hover:to-yellow-500/5 transition-all duration-500 pointer-events-none"></div>
+    </div>
+  );
+
+  // --- Main Render ---
   return (
-    <div className="relative w-full" style={{height: '260px'}}>
+    <div 
+      ref={containerRef}
+      className="relative w-full overflow-hidden"
+      style={{ height: '320px' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Gradient Fade Edges */}
+      <div className="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none"></div>
+      <div className="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none"></div>
+      
+      {/* Carousel Container */}
       <div
         ref={marqueeRef}
-        className="flex gap-8 items-center px-4 select-none cursor-grab active:cursor-grabbing"
-        style={{willChange: 'transform', cursor: 'grab'}}
-        // Hover should NOT pause; only drag/click pauses
-        onMouseEnter={() => { /* no-op: keep moving on hover */ }}
-        onMouseLeave={() => { draggingRef.current = false; /* keep current isPaused state */ }}
-        onMouseDown={(e) => {
-          draggingRef.current = true;
-          startXRef.current = e.clientX;
-          startOffsetRef.current = offsetRef.current;
-          setIsPaused(true);
+        className="flex gap-5 items-center px-4 select-none cursor-grab active:cursor-grabbing"
+        style={{ 
+          willChange: 'transform',
+          backfaceVisibility: 'hidden',
+          perspective: '1000px'
         }}
-        onMouseMove={(e) => {
-          if (!draggingRef.current) return;
-          const delta = e.clientX - startXRef.current;
-          let next = startOffsetRef.current + delta;
-          const marquee = marqueeRef.current;
-          if (marquee) {
-            const period = marquee.scrollWidth / 2;
-            while (next <= -period) next += period;
-            while (next >= 0) next -= period;
-          }
-          offsetRef.current = next;
-          if (marqueeRef.current) marqueeRef.current.style.transform = `translateX(${offsetRef.current}px)`;
-        }}
-        onMouseUp={() => { draggingRef.current = false; setIsPaused(false); }}
-        onTouchStart={(e) => {
-          const x = e.touches[0]?.clientX || 0;
-          draggingRef.current = true;
-          startXRef.current = x;
-          startOffsetRef.current = offsetRef.current;
-          setIsPaused(true);
-        }}
+        onMouseDown={(e) => handleInteractionStart(e.clientX)}
+        onMouseMove={(e) => handleInteractionMove(e.clientX)}
+        onMouseUp={handleInteractionEnd}
+        onMouseLeave={handleInteractionEnd}
+        onTouchStart={(e) => handleInteractionStart(e.touches[0]?.clientX || 0)}
         onTouchMove={(e) => {
-          if (!draggingRef.current) return;
-          const x = e.touches[0]?.clientX || 0;
-          const delta = x - startXRef.current;
-          let next = startOffsetRef.current + delta;
-          const marquee = marqueeRef.current;
-          if (marquee) {
-            const period = marquee.scrollWidth / 2;
-            while (next <= -period) next += period;
-            while (next >= 0) next -= period;
-          }
-          offsetRef.current = next;
-          if (marqueeRef.current) marqueeRef.current.style.transform = `translateX(${offsetRef.current}px)`;
+          handleInteractionMove(e.touches[0]?.clientX || 0);
           e.preventDefault();
         }}
-        onTouchEnd={() => { draggingRef.current = false; setIsPaused(false); }}
+        onTouchEnd={handleInteractionEnd}
       >
-        {[...foodListImages, ...foodListImages].map((img, idx) => (
-          <div key={idx} className="bg-white rounded-2xl shadow flex flex-col items-start justify-start w-80 h-64 p-4 border border-gray-100" style={{minWidth: '320px'}}>
-            <img src={img} alt={foodListInfo[idx % foodListInfo.length]} className="w-full h-40 object-cover rounded-xl mb-3" loading="lazy" decoding="async" />
-            <div className="text-lg font-bold text-gray-900 mb-1">{foodListInfo[idx % foodListInfo.length]}</div>
-            <div className="text-sm text-gray-600">Delicious & Fresh</div>
-          </div>
+        {/* Render cards twice for seamless loop */}
+        {[...restaurantImages, ...restaurantImages].map((img, idx) => (
+          <RestaurantCard
+            key={idx}
+            image={img}
+            name={restaurantInfo[idx % restaurantInfo.length]}
+            index={idx}
+          />
         ))}
+      </div>
+      
+      {/* Interaction Hint */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
+        ← Drag to explore →
       </div>
     </div>
   );
