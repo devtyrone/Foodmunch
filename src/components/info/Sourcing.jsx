@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaLeaf, FaTruck, FaShieldAlt, FaUsers, FaGlobe, FaRecycle, FaAward, FaHeart } from 'react-icons/fa';
 
 const Sourcing = () => {
@@ -299,12 +300,12 @@ const Sourcing = () => {
             commitment to responsible sourcing and sustainable practices.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-green-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
+            <Link to="/menu" className="bg-white text-green-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors inline-block">
               Order Now
-            </button>
-            <button className="border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold py-3 px-8 rounded-lg transition-colors">
+            </Link>
+            <Link to="/about-us" className="border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold py-3 px-8 rounded-lg transition-colors inline-block">
               Learn More
-            </button>
+            </Link>
           </div>
         </div>
       </div>

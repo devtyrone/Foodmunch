@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaBullseye, FaHeart, FaGlobe, FaUsers, FaLightbulb, FaShieldAlt } from 'react-icons/fa';
 
 const Mission = () => {
@@ -253,12 +254,12 @@ const Mission = () => {
                 away, and where every meal brings people together.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
+                <Link to="/menu" className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center">
                   Order Now
-                </button>
-                <button className="border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-semibold py-3 px-8 rounded-lg transition-colors">
+                </Link>
+                <Link to="/contact" className="border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center">
                   Partner With Us
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -274,9 +275,9 @@ const Mission = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join millions of satisfied customers who trust us to deliver exceptional food experiences.
           </p>
-          <button className="bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
+          <Link to="/restaurants" className="inline-block bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
             Start Your Food Journey
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,6 +1,24 @@
-import React from 'react';
+/**
+ * Careers.jsx
+ * Careers landing page highlighting why to work with us, culture, and a simple
+ * form to share interest details (non-functional placeholder inputs).
+ */
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Careers = () => {
+  // Scroll to an anchored section if URL contains a hash (e.g., #join-us)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const { hash } = window.location;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        // small timeout to ensure layout is ready
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
+      }
+    }
+  }, []);
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Section 1: Choose your forte */}
@@ -17,6 +35,7 @@ const Careers = () => {
             </p>
           </div>
           
+          {/* Two-column section: reasons + illustrative image */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
@@ -49,16 +68,17 @@ const Careers = () => {
                 </div>
               </div>
               
+              {/* Primary CTAs (not wired) */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center">
+                <Link to="/careers/open-positions" className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center">
                   View Open Positions
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </button>
-                <button className="border-2 border-gray-300 hover:border-gray-400 text-gray-700 px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center">
+                </Link>
+                <Link to="/careers/our-culture" className="border-2 border-gray-300 hover:border-gray-400 text-gray-700 px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center">
                   Learn About Our Culture
-                </button>
+                </Link>
               </div>
             </div>
             
@@ -68,6 +88,8 @@ const Careers = () => {
                   src="/assets/food/food.jpg"
                   alt="Professional team collaboration"
                   className="w-full h-80 object-cover rounded-xl shadow-lg"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute -bottom-4 -right-4 bg-white p-4 rounded-xl shadow-lg border border-gray-100">
                   <div className="text-center">
@@ -117,18 +139,19 @@ const Careers = () => {
 
           {/* Image Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <img src="/assets/food/food.jpg" alt="Work culture 1" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/assets/food/food2.jpg" alt="Work culture 2" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/assets/food/food3.jpg" alt="Work culture 3" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/assets/food/food4.jpg" alt="Work culture 4" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/assets/food/food5.jpg" alt="Work culture 5" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
-            <img src="/assets/food/food.jpg" alt="Work culture 6" className="w-full h-64 object-cover rounded-lg shadow-md" /> {/* Placeholder image */}
+            <img src="/assets/food/food.jpg" alt="Work culture 1" className="w-full h-64 object-cover rounded-lg shadow-md" loading="lazy" decoding="async" /> {/* Placeholder image */}
+            <img src="/assets/food/food2.jpg" alt="Work culture 2" className="w-full h-64 object-cover rounded-lg shadow-md" loading="lazy" decoding="async" /> {/* Placeholder image */}
+            <img src="/assets/food/food3.jpg" alt="Work culture 3" className="w-full h-64 object-cover rounded-lg shadow-md" loading="lazy" decoding="async" /> {/* Placeholder image */}
+            <img src="/assets/food/food4.jpg" alt="Work culture 4" className="w-full h-64 object-cover rounded-lg shadow-md" loading="lazy" decoding="async" /> {/* Placeholder image */}
+            <img src="/assets/food/food5.jpg" alt="Work culture 5" className="w-full h-64 object-cover rounded-lg shadow-md" loading="lazy" decoding="async" /> {/* Placeholder image */}
+            <img src="/assets/food/food.jpg" alt="Work culture 6" className="w-full h-64 object-cover rounded-lg shadow-md" loading="lazy" decoding="async" /> {/* Placeholder image */}
           </div>
         </div>
       </section>
 
-      {/* Section 3: Join us (Job Application Form) */}
-      <section className="py-16 px-4 bg-white">
+      {/* Section 3: Join us (Job Application Form)
+          Non-functional inputs; replace with a real form backend later. */}
+      <section id="join-us" className="py-16 px-4 bg-white">
         <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
           <h2 className="text-4xl font-extrabold text-center mb-4">Join us</h2>
           <p className="text-center text-gray-600 mb-8">

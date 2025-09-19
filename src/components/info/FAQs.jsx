@@ -1,7 +1,13 @@
+/**
+ * FAQs.jsx
+ * Searchable, categorized FAQ with expandable categories and questions.
+ * Defaults to opening the "App Download" category and its first item.
+ */
 import React, { useState } from 'react';
 import { FaMobileAlt, FaUser, FaShoppingCart, FaCreditCard } from 'react-icons/fa'; // Import icons
 import PromoSection from '../sections/PromoSection'; // Corrected import path
 
+// Master FAQ dataset grouped by category
 const allFaqs = [
   {
     category: 'App Download',
@@ -58,9 +64,11 @@ const allFaqs = [
 
 const FAQs = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [openCategory, setOpenCategory] = useState(null);
-  const [openItem, setOpenItem] = useState(null);
+  // Open the App Download category and its first question by default
+  const [openCategory, setOpenCategory] = useState('App Download');
+  const [openItem, setOpenItem] = useState(1);
 
+  // Filter categories and questions by the search term (case-insensitive)
   const filteredFaqs = allFaqs
     .map((category) => ({
       ...category,
@@ -72,17 +80,20 @@ const FAQs = () => {
     }))
     .filter((category) => category.items.length > 0);
 
+  // Reset open state when searching to avoid mismatched indices
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setOpenCategory(null); // Close any open categories on search
     setOpenItem(null); // Close any open items on search
   };
 
+  // Expand/collapse a category. Collapsing it closes its open items.
   const toggleCategory = (categoryName) => {
     setOpenCategory(openCategory === categoryName ? null : categoryName);
     setOpenItem(null); // Close any open items when toggling a category
   };
 
+  // Expand/collapse an individual item within the open category
   const toggleItem = (itemId) => {
     setOpenItem(openItem === itemId ? null : itemId);
   };

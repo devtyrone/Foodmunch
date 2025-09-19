@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const ContactUs = () => {
+  // Smooth scroll to hash target when navigating with /contact#...
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const { hash } = window.location;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
+      }
+    }
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -43,7 +54,7 @@ const ContactUs = () => {
     {
       icon: <FaPhone className="text-red-600 text-xl" />,
       title: "Phone",
-      details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
+      details: ["+234 (704) 656-3652", "+234 (903) 370-3252"],
       description: "Call us for immediate assistance"
     },
     {
@@ -140,7 +151,7 @@ const ContactUs = () => {
           </div>
 
           <div className="bg-gray-50 rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 id="send-message" className="text-2xl font-bold text-gray-900 mb-6">
               Send us a Message
             </h2>
             

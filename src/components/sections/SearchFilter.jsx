@@ -131,6 +131,18 @@ const SearchFilter = ({ onSearch, onFilter, restaurants = [] }) => {
         {/* Filter Panel */}
         {showFilters && (
           <div className="bg-gray-50 rounded-lg p-6 space-y-6">
+            {/* Panel header with close icon */}
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-base font-semibold text-gray-800">Filters</h3>
+              <button
+                type="button"
+                aria-label="Close filters"
+                onClick={() => setShowFilters(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <FaTimes className="w-5 h-5" />
+              </button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Cuisine Filter */}
               <div>

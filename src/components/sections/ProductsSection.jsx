@@ -1,70 +1,70 @@
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 
 const productsData = [
   {
     id: 1,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'FoodMunch App',
-    description: 'High quality chef prepared meals delivered at a click of a button.',
+    description: 'Chef‑prepared meals delivered fast. Discover favorites, track orders, customize diets securely.',
     buttonText: 'Download',
-    link: '#', // Placeholder link
+    link: '/Home', // Link to Home where badges are displayed
   },
   {
     id: 2,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'FoodMunch Business',
-    description: 'Corporate meal plans designed to boost employee satisfaction.',
+    description: 'Corporate meal programs with flexible budgets, centralized billing and dietary support.',
     buttonText: 'View',
-    link: '#', // Placeholder link
+    link: '/about-us', // Learn more via About Us
   },
   {
     id: 3,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Event Catering',
-    description: 'Personalised catering services for all types of events.',
+    description: 'Personalized catering for weddings, corporate events and celebrations with custom menus.',
     buttonText: 'Contact us',
-    link: '#', // Placeholder link
+    link: '/contact', // Route to Contact Us page
   },
   {
     id: 5,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Healthy Bowls',
-    description: 'Nutritious and delicious bowls for a balanced meal.',
+    description: 'Nutritious bowls with fresh produce, lean proteins and customizable toppings daily.',
     buttonText: 'Order Now',
-    link: '#',
+    link: '/menu',
   },
   {
     id: 6,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Gourmet Pizzas',
-    description: 'Hand-tossed pizzas with premium ingredients.',
+    description: 'Stone‑fired pizzas with premium cheeses, seasonal ingredients and classic Italian flavors.',
     buttonText: 'View Menu',
-    link: '#',
+    link: '/menu',
   },
   {
     id: 7,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Dessert Delights',
-    description: 'Sweet treats and pastries to satisfy your cravings.',
+    description: 'Sweet treats and pastries baked fresh daily including cakes, cookies, tarts.',
     buttonText: 'Browse',
-    link: '#',
+    link: '/menu',
   },
   {
     id: 8,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Beverage Bar',
-    description: 'Refreshing drinks, smoothies, and specialty coffees.',
+    description: 'Refreshing juices, smoothies, specialty coffees and teas with energizing natural ingredients.',
     buttonText: 'Explore',
-    link: '#',
+    link: '/menu',
   },
   {
     id: 9,
     icon: '/assets/others/chef.jpeg', // Placeholder icon
     title: 'Breakfast Delights',
-    description: 'Start your day with our delicious breakfast options.',
+    description: 'Hearty classics and light bites including pastries, bowls and protein options.',
     buttonText: 'Order Now',
-    link: '#',
+    link: '/menu',
   },
 ];
 
@@ -109,13 +109,13 @@ const ProductsSection = () => {
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">{product.title}</h3>
               <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 flex-grow">{product.description}</p>
-              <a
-                href={product.link}
+              <Link
+                to={product.link}
                 className="mt-auto inline-block bg-white text-black font-semibold py-2 px-3 sm:py-3 sm:px-6 rounded-lg shadow-sm border border-red-500 hover:bg-red-50 transition-colors duration-200 w-full text-center whitespace-nowrap overflow-hidden text-ellipsis text-sm sm:text-base"
-                style={{}} // Removed textShadow as it's no longer needed for black text on white background
+                aria-label={`${product.buttonText} - ${product.title}`}
               >
                 {product.buttonText}
-              </a>
+              </Link>
             </div>
           ))}
         </div>

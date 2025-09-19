@@ -1,3 +1,8 @@
+/**
+ * DarkModeToggle.jsx
+ * Small button component to toggle Tailwind's `dark` class on <html>.
+ * Persists theme preference in localStorage and respects system preference.
+ */
 import { useState, useEffect } from 'react';
 
 function DarkModeToggle() {
@@ -14,6 +19,7 @@ function DarkModeToggle() {
     }
   }, []);
 
+  // Toggle between light and dark themes and persist choice
   const toggleTheme = () => {
     const newIsDark = !isDark;
     setIsDark(newIsDark);

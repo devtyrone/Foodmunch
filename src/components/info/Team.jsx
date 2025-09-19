@@ -1,7 +1,128 @@
-import React from 'react';
+/**
+ * Team.jsx
+ * Dedicated page to showcase leadership team, core values, culture, and contact details.
+ * This page focuses on static content and team member bios.
+ */
+import React, { useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FaLinkedin, FaTwitter, FaEnvelope, FaMapMarkerAlt, FaPhone, FaClock } from 'react-icons/fa';
 
+// Marquee component styled like AboutUs.jsx (circular avatars, name, title)
+// - Auto-scrolls left, pauses on hover, supports drag/touch scrubbing
+function TeamMarquee({ members = [] }) {
+  const marqueeRef = useRef(null);
+  const offsetRef = useRef(0);
+  const draggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const startOffsetRef = useRef(0);
+  const isPausedRef = useRef(false);
+
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    if (!marquee) return;
+
+    let offset = 0;
+    let animationFrame;
+    const speed = 1.5;
+
+    // Duplicate content initially for seamless loop
+    if (marquee.children.length === members.length) {
+      for (let i = 0; i < members.length; i++) {
+        marquee.appendChild(marquee.children[i].cloneNode(true));
+      }
+    }
+
+    const containerWidth = marquee.parentElement.offsetWidth;
+    const contentWidth = () => marquee.scrollWidth / 2;
+    // Start from left edge (0) instead of right
+    offset = 0;
+    offsetRef.current = offset;
+    marquee.style.transform = `translateX(${offset}px)`;
+
+    const animate = () => {
+      offset = offsetRef.current;
+      // Always scroll, never pause
+      if (!draggingRef.current) {
+        offset -= speed;
+      }
+      // Reset to start from left when content scrolls off
+      if (offset < -contentWidth()) {
+        offset = 0;
+      }
+      offsetRef.current = offset;
+      marquee.style.transform = `translateX(${offset}px)`;
+      animationFrame = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [members]);
+
+  const onMouseDown = (e) => {
+    draggingRef.current = true;
+    startXRef.current = e.clientX;
+    startOffsetRef.current = offsetRef.current;
+    isPausedRef.current = true;
+  };
+  const onMouseMove = (e) => {
+    if (!draggingRef.current) return;
+    const delta = e.clientX - startXRef.current;
+    offsetRef.current = startOffsetRef.current + delta;
+    if (marqueeRef.current) marqueeRef.current.style.transform = `translateX(${offsetRef.current}px)`;
+  };
+  const onMouseUp = () => {
+    draggingRef.current = false;
+    isPausedRef.current = false;
+  };
+  const onTouchStart = (e) => {
+    const x = e.touches[0]?.clientX || 0;
+    draggingRef.current = true;
+    startXRef.current = x;
+    startOffsetRef.current = offsetRef.current;
+    isPausedRef.current = true;
+  };
+  const onTouchMove = (e) => {
+    if (!draggingRef.current) return;
+    const x = e.touches[0]?.clientX || 0;
+    const delta = x - startXRef.current;
+    offsetRef.current = startOffsetRef.current + delta;
+    if (marqueeRef.current) marqueeRef.current.style.transform = `translateX(${offsetRef.current}px)`;
+    e.preventDefault();
+  };
+  const onTouchEnd = () => {
+    draggingRef.current = false;
+    isPausedRef.current = false;
+  };
+
+  return (
+    <div className="overflow-hidden w-full relative">
+      <div
+        ref={marqueeRef}
+        className="whitespace-nowrap flex py-4 select-none cursor-grab active:cursor-grabbing"
+        style={{ willChange: 'transform' }}
+        onMouseEnter={() => { /* Remove pause on hover */ }}
+        onMouseLeave={() => { draggingRef.current = false; }}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {[...members, ...members].map((member, idx) => (
+          <div key={idx} className="inline-block mx-4 flex-none w-48 text-center">
+            <img src={member.image} alt={member.name} className="w-32 h-32 object-cover rounded-full mb-4 shadow-lg mx-auto" loading="lazy" decoding="async" />
+            <h3 className="text-xl font-bold text-gray-800">{member.name}</h3>
+            <p className="text-red-600 text-sm">{member.position}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const Team = () => {
+  // Team data model used to render leadership cards
   const teamMembers = [
     {
       id: 1,
@@ -83,6 +204,7 @@ const Team = () => {
     }
   ];
 
+  // Company values displayed as a four-column feature grid
   const values = [
     {
       title: "Excellence",
@@ -147,77 +269,14 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Team Members Section */}
+      {/* Team Members Section (AboutUs-style marquee) */}
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Leadership Team
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Meet the experienced professionals leading FoodMunch to success
-            </p>
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Leadership Team</h2>
+            <p className="text-lg text-gray-600">Meet the experienced professionals leading FoodMunch to success</p>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member) => (
-              <div key={member.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      className="w-16 h-16 rounded-full object-cover mr-4"
-                    />
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900">{member.name}</h3>
-                      <p className="text-red-600 font-medium">{member.position}</p>
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-600 mb-4 leading-relaxed">{member.bio}</p>
-                  
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Specialties:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {member.specialties.map((specialty, index) => (
-                        <span 
-                          key={index}
-                          className="px-3 py-1 bg-red-50 text-red-700 text-sm rounded-full"
-                        >
-                          {specialty}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="flex space-x-3">
-                    <a 
-                      href={member.social.linkedin}
-                      className="text-gray-400 hover:text-red-600 transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <FaLinkedin className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href={member.social.twitter}
-                      className="text-gray-400 hover:text-red-600 transition-colors"
-                      aria-label="Twitter"
-                    >
-                      <FaTwitter className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href={`mailto:${member.social.email}`}
-                      className="text-gray-400 hover:text-red-600 transition-colors"
-                      aria-label="Email"
-                    >
-                      <FaEnvelope className="w-5 h-5" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TeamMarquee members={teamMembers} />
         </div>
       </div>
 
@@ -285,9 +344,9 @@ const Team = () => {
                 </div>
               </div>
               
-              <button className="w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+              <Link to="/careers/open-positions" className="block w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-center">
                 View Open Positions
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -303,12 +362,12 @@ const Team = () => {
             Order now and taste the difference our passionate team makes in every dish.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
+            <Link to="/menu" className="bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors inline-block text-center">
               Order Now
-            </button>
-            <button className="border-2 border-white text-white hover:bg-white hover:text-red-600 font-semibold py-3 px-8 rounded-lg transition-colors">
+            </Link>
+            <Link to="/about-us" className="border-2 border-white text-white hover:bg-white hover:text-red-600 font-semibold py-3 px-8 rounded-lg transition-colors inline-block text-center">
               Learn More
-            </button>
+            </Link>
           </div>
         </div>
       </div>

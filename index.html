@@ -5,6 +5,11 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
+    <!-- Performance: Preconnect to external image CDNs -->
+    <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+    <link rel="preconnect" href="https://i.imgur.com" crossorigin>
+    <!-- Preload above-the-fold hero image -->
+    <link rel="preload" as="image" href="/assets/food/food.jpg" />
   </head>
   <body>
     <div id="root"></div>

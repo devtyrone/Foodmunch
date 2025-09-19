@@ -16,7 +16,7 @@ const HeroSection = () => {
           share your details to let us know you're interested in joining the team.
         </p>
         <Link
-          to="/about-us"
+          to="/team"
           className="inline-block bg-red-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-red-700 transition-colors duration-200"
         >
           Share your details

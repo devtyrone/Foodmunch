@@ -1,6 +1,12 @@
+/**
+ * AboutUs.jsx
+ * Company story page with mission, journey timeline, a team marquee,
+ * and a call-to-action to share details (links to Team page).
+ */
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Added Link import
 
+// Minimal team list used to render the marquee strip
 const teamMembers = [
   {
     id: 1,
@@ -56,6 +62,8 @@ const AboutUs = () => {
             src="/assets/food/food.jpg" // Placeholder image
             alt="Food Delivery Innovation"
             className="w-full h-[500px] object-cover rounded-3xl shadow-2xl"
+            loading="lazy"
+            decoding="async"
           />
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-8">
             <div className="bg-white rounded-xl shadow-lg p-6 text-center w-56">
@@ -89,22 +97,22 @@ const AboutUs = () => {
           <h2 className="text-4xl font-extrabold text-gray-900 mb-12 text-center">The FoodMunch Journey</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/assets/food/food.jpg" alt="Startup" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food.jpg" alt="Startup" className="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" decoding="async" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">STARTUP</h3>
               <p className="text-gray-600">FoodMunch was founded to transform how people enjoy their favorite meals, focusing on delivering quality and variety with every order</p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/assets/food/food2.jpg" alt="Growth" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food2.jpg" alt="Growth" className="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" decoding="async" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">GROWTH</h3>
               <p className="text-gray-600">Through innovation and strategic partnerships, we've expanded our offerings to bring better food experiences to more people</p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/assets/food/food3.jpg" alt="Sustainability" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food3.jpg" alt="Sustainability" className="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" decoding="async" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">SUSTAINABILITY</h3>
               <p className="text-gray-600">With a commitment to quality, convenience, and exceptional service, we have become a go-to choice for our customers.</p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
-              <img src="/assets/food/food4.jpg" alt="Expansion" className="w-full h-48 object-cover rounded-lg mb-4" /> {/* Placeholder image */}
+              <img src="/assets/food/food4.jpg" alt="Expansion" className="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" decoding="async" /> {/* Placeholder image */}
               <h3 className="text-xl font-bold text-gray-800 mb-2">EXPANSION</h3>
               <p className="text-gray-600">As we look ahead, our goal is to reach more communities enhancing our services, and continue delivering exceptional dining experiences</p>
             </div>
@@ -112,7 +120,8 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Section 4: Good Food, Good People (Team Section) */}
+      {/* Section 4: Good Food, Good People (Team Section)
+          Horizontal team marquee (drag/touch supported) */}
       <section className="py-16 px-4 bg-gray-100">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-extrabold text-gray-900 mb-4">Good Food, Good People</h2>
@@ -121,7 +130,8 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* New Section: Join us on our Journey (from previous HeroSection content) */}
+      {/* New Section: Join us on our Journey (from previous HeroSection content)
+          CTA navigates users to Team page to share details */}
       <section
         className="relative bg-cover h-screen flex items-center justify-center text-white w-full"
         style={{ backgroundImage: 'url(/assets/others/end.png)', backgroundPosition: 'center 30%' }}
@@ -134,7 +144,7 @@ const AboutUs = () => {
             share your details to let us know you're interested in joining the team.
           </p>
           <Link
-            to="/about-us"
+            to="/team"
             className="inline-block bg-red-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-red-700 transition-colors duration-200"
           >
             Share your details
@@ -145,9 +155,14 @@ const AboutUs = () => {
   );
 };
 
-// Marquee component for team members
+// Marquee component for team members with drag/touch support
 const MarqueeTeam = () => {
   const marqueeRef = useRef(null);
+  const offsetRef = useRef(0);
+  const draggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const startOffsetRef = useRef(0);
+  const isPausedRef = useRef(false);
 
   useEffect(() => {
     const marquee = marqueeRef.current;
@@ -155,46 +170,92 @@ const MarqueeTeam = () => {
 
     let offset = 0;
     let animationFrame;
-    const scrollSpeed = 1.5; // Increased scroll speed
-
-    const animate = () => {
-      offset -= scrollSpeed;
-      // Duplicate content if it's about to run out
-      // if (offset < -marquee.scrollWidth / 2) {
-      //   offset = 0;
-      // }
-      // Recalculate contentWidth and containerWidth if needed after resize or initial render
-      const containerWidth = marquee.parentElement.offsetWidth;
-      const contentWidth = marquee.scrollWidth / 2; // Assuming content is duplicated
-      if (offset < -contentWidth) {
-          offset = containerWidth; // Reset to start from right side
-      }
-      marquee.style.transform = `translateX(${offset}px)`;
-      animationFrame = requestAnimationFrame(animate);
-    };
+    const speed = 1.5;
 
     // Duplicate content initially for seamless loop
     if (marquee.children.length === teamMembers.length) {
-        for (let i = 0; i < teamMembers.length; i++) {
-            marquee.appendChild(marquee.children[i].cloneNode(true));
-        }
+      for (let i = 0; i < teamMembers.length; i++) {
+        marquee.appendChild(marquee.children[i].cloneNode(true));
+      }
     }
 
+    const containerWidth = marquee.parentElement.offsetWidth;
+    const contentWidth = () => marquee.scrollWidth / 2;
+    offset = containerWidth;
+    offsetRef.current = offset;
+    marquee.style.transform = `translateX(${offset}px)`;
+
+    const animate = () => {
+      offset = offsetRef.current;
+      if (!isPausedRef.current && !draggingRef.current) {
+        offset -= speed;
+      }
+      if (offset < -contentWidth()) {
+        offset = containerWidth;
+      }
+      offsetRef.current = offset;
+      marquee.style.transform = `translateX(${offset}px)`;
+      animationFrame = requestAnimationFrame(animate);
+    };
     animate();
 
     return () => cancelAnimationFrame(animationFrame);
   }, []);
 
+  const onMouseDown = (e) => {
+    draggingRef.current = true;
+    startXRef.current = e.clientX;
+    startOffsetRef.current = offsetRef.current;
+    isPausedRef.current = true;
+  };
+  const onMouseMove = (e) => {
+    if (!draggingRef.current) return;
+    const delta = e.clientX - startXRef.current;
+    offsetRef.current = startOffsetRef.current + delta;
+    if (marqueeRef.current) marqueeRef.current.style.transform = `translateX(${offsetRef.current}px)`;
+  };
+  const onMouseUp = () => {
+    draggingRef.current = false;
+    isPausedRef.current = false;
+  };
+  const onTouchStart = (e) => {
+    const x = e.touches[0]?.clientX || 0;
+    draggingRef.current = true;
+    startXRef.current = x;
+    startOffsetRef.current = offsetRef.current;
+    isPausedRef.current = true;
+  };
+  const onTouchMove = (e) => {
+    if (!draggingRef.current) return;
+    const x = e.touches[0]?.clientX || 0;
+    const delta = x - startXRef.current;
+    offsetRef.current = startOffsetRef.current + delta;
+    if (marqueeRef.current) marqueeRef.current.style.transform = `translateX(${offsetRef.current}px)`;
+    e.preventDefault();
+  };
+  const onTouchEnd = () => {
+    draggingRef.current = false;
+    isPausedRef.current = false;
+  };
+
   return (
     <div className="overflow-hidden w-full relative">
       <div
         ref={marqueeRef}
-        className="whitespace-nowrap flex py-4"
+        className="whitespace-nowrap flex py-4 select-none cursor-grab active:cursor-grabbing"
         style={{ willChange: 'transform' }}
+        onMouseEnter={() => { isPausedRef.current = true; }}
+        onMouseLeave={() => { isPausedRef.current = false; draggingRef.current = false; }}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
         {[...teamMembers, ...teamMembers].map((member, idx) => (
           <div key={idx} className="inline-block mx-4 flex-none w-48 text-center">
-            <img src={member.image} alt={member.name} className="w-32 h-32 object-cover rounded-full mb-4 shadow-lg mx-auto" />
+            <img src={member.image} alt={member.name} className="w-32 h-32 object-cover rounded-full mb-4 shadow-lg mx-auto" loading="lazy" decoding="async" />
             <h3 className="text-xl font-bold text-gray-800">{member.name}</h3>
             <p className="text-red-600 text-sm">{member.title}</p>
           </div>
