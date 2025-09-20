@@ -139,7 +139,7 @@ const Team = () => {
     },
     {
       id: 2,
-      name: "Michael Chen",
+      name: "Ezenewu Great",
       position: "Head Chef & Culinary Director",
       image: "/assets/others/chef.jpeg",
       bio: "Award-winning chef with Michelin-star experience, Michael brings 20 years of culinary excellence to our kitchen. He's passionate about sustainable cooking and local ingredients.",
@@ -152,7 +152,7 @@ const Team = () => {
     },
     {
       id: 3,
-      name: "Emily Rodriguez",
+      name: "Ezeokwu Chinedu",
       position: "Chief Technology Officer",
       image: "/assets/others/chef.jpeg",
       bio: "Tech visionary with expertise in food delivery platforms. Emily has built scalable systems for major food companies and leads our digital transformation initiatives.",
@@ -165,7 +165,7 @@ const Team = () => {
     },
     {
       id: 4,
-      name: "David Thompson",
+      name: "Mercy Oladimeji",
       position: "Head of Operations",
       image: "/assets/others/chef.jpeg",
       bio: "Operations expert with a focus on efficiency and customer satisfaction. David ensures our delivery network runs smoothly and maintains our high service standards.",
@@ -178,7 +178,7 @@ const Team = () => {
     },
     {
       id: 5,
-      name: "Lisa Park",
+      name: "Ovuoke Buluku",
       position: "Head of Marketing",
       image: "/assets/others/chef.jpeg",
       bio: "Creative marketing leader with a passion for food and community. Lisa has built successful campaigns for major food brands and leads our customer engagement strategies.",
@@ -191,7 +191,7 @@ const Team = () => {
     },
     {
       id: 6,
-      name: "James Wilson",
+      name: "James Okosa",
       position: "Head of Customer Experience",
       image: "/assets/others/chef.jpeg",
       bio: "Customer advocate with a background in hospitality and service excellence. James ensures every customer interaction exceeds expectations and builds lasting relationships.",

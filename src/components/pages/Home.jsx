@@ -436,12 +436,11 @@ export default Home;
 
 // --- Enhanced MarqueeGrid Component ---
 // Premium restaurant carousel with world-class smooth movement
-const restaurantImages = Array.from({length: 20}, (_, i) => `/assets/Foodlist/${i+1}.jpeg`);
+const restaurantImages = Array.from({length: 10}, (_, i) => `/assets/resturants/${i+1}.jpeg`);
 
 const restaurantInfo = [
-  "Amala Spot", "Bukka Hut", "Chicken Republic", "Domino's Pizza", "Five Continents", "Ibachi Chinese", "Kilimanjaro", "Martha's Kitchen", 
-  "Mr. Bigg's", "Saire Restaurant", "Tantalizers", "The Place", "Ultima Lounge", "Vintage Lounge", "Wimpy's", "Yellow Chilli", 
-  "Bliss Farm Kitchen", "Le Ville", "Tamberma", "Sheraton Hotel"
+   "Chicken Republic", "Domino's Pizza", "Five Continents", "Ibachi Chinese", "Kilimanjaro", "Item7go", 
+  "Mr. Bigg's", "KFC", "The Place", "Ultima Lounge", "Vintage Lounge", "Wimpy's", 
 ];
 
 /**
@@ -622,20 +621,18 @@ function MarqueeGrid() {
   // --- Premium Card Component ---
   const RestaurantCard = ({ image, name, index }) => (
     <div 
-      className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:scale-105"
+      className="relative bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden"
       style={{ minWidth: '320px', width: '320px', height: '280px' }}
     >
-      {/* Image Container with Overlay */}
+      {/* Image Container */}
       <div className="relative h-48 overflow-hidden">
         <img 
           src={image} 
           alt={name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-cover"
           loading="lazy" 
           decoding="async"
         />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         
         {/* Floating Badge */}
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700 shadow-lg">
@@ -645,7 +642,7 @@ function MarqueeGrid() {
       
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+        <h3 className="text-xl font-bold text-gray-900 mb-2">
           {name}
         </h3>
         <p className="text-gray-600 text-sm mb-3">
@@ -658,14 +655,11 @@ function MarqueeGrid() {
             <span className="w-2 h-2 bg-green-500 rounded-full"></span>
             <span>Available now</span>
           </div>
-          <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors transform hover:scale-105">
+          <button className="bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-medium">
             Order Now
           </button>
         </div>
       </div>
-      
-      {/* Hover Glow Effect */}
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-red-500/0 via-orange-500/0 to-yellow-500/0 group-hover:from-red-500/5 group-hover:via-orange-500/5 group-hover:to-yellow-500/5 transition-all duration-500 pointer-events-none"></div>
     </div>
   );
 
@@ -675,8 +669,14 @@ function MarqueeGrid() {
       ref={containerRef}
       className="relative w-full overflow-hidden"
       style={{ height: '320px' }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setIsPaused(true);  // Pause auto-scrolling on hover
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setIsPaused(false); // Resume auto-scrolling when not hovering
+      }}
     >
       {/* Gradient Fade Edges */}
       <div className="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none"></div>
