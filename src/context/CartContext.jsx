@@ -32,10 +32,12 @@ export const CartProvider = ({ children }) => {
       const existingItem = prevItems.find((i) => i.id === item.id)
       if (existingItem) {
         return prevItems.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === item.id 
+            ? { ...i, quantity: i.quantity + (item.quantity || 1) } 
+            : i
         )
       } else {
-        return [...prevItems, { ...item, quantity: 1 }]
+        return [...prevItems, { ...item, quantity: item.quantity || 1 }]
       }
     })
   }

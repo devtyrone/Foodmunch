@@ -202,7 +202,7 @@ const ItemDetails = () => {
     // Calculate the final price based on whether a discount is applied
     const finalPrice = discountApplied ? item.price : (item.originalPrice || item.price);
     
-    // Create cart item with all necessary details
+    // Create cart item with all necessary details including the quantity
     const cartItem = { 
       id: item.id, 
       name: item.name, 
@@ -211,7 +211,7 @@ const ItemDetails = () => {
       image: item.img,
       promoCode: discountApplied ? promoCode : undefined,
       description: item.desc,
-      quantity: quantity  // Include the quantity in the cart item
+      quantity: quantity  // Pass the selected quantity
     };
     
     // Add the item to cart with the correct quantity
@@ -239,33 +239,34 @@ const ItemDetails = () => {
       }
     }
     
-    // Show success message
-    toast.success(`${quantity} ${quantity > 1 ? 'items' : 'item'} added to cart`, {
+    // Show success message with the quantity added
+    toast.success(`${quantity} ${quantity > 1 ? 'items' : 'item'} (${formatNGN(finalPrice * quantity)}) added to cart`, {
       position: 'top-right',
       autoClose: 2000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-    })
+    });
   }
 
   const handleBuyNow = () => {
+    // Clear the cart first
     clearCart();
     
     // Calculate the final price based on whether a discount is applied
     const finalPrice = discountApplied ? item.price : (item.originalPrice || item.price);
     
-    // Create cart item with all necessary details
+    // Create cart item with the selected quantity
     const cartItem = { 
       id: item.id, 
       name: item.name, 
-      price: finalPrice,  // Use the calculated final price
-      originalPrice: item.originalPrice || item.price,  // Keep track of original price
+      price: finalPrice,
+      originalPrice: item.originalPrice || item.price,
       image: item.img,
       promoCode: discountApplied ? promoCode : undefined,
       description: item.desc,
-      quantity: quantity  // Include the quantity in the cart item
+      quantity: quantity  // Use the selected quantity
     };
     
     // Add the item to cart with the correct quantity
@@ -286,6 +287,16 @@ const ItemDetails = () => {
     
     // Open the cart and navigate to checkout
     openCart();
+    
+    // Show success message with the quantity
+    toast.success(`${quantity} ${quantity > 1 ? 'items' : 'item'} (${formatNGN(finalPrice * quantity)}) added to cart`, {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   }
 
   const incrementQuantity = () => setQuantity(prev => prev + 1)

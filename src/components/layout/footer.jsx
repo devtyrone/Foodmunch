@@ -22,7 +22,27 @@ const socialLinks = [
 ];
 
 const Footer = () => (
-    <footer className="bg-[#0a0b12] text-white pt-14 pb-8 px-4 sm:px-6 mt-12 md:mt-20">
+    <footer className="bg-[#0a0b12] text-white">
+      {/* Join Us Section */}
+      <div className="relative bg-cover py-20 md:py-28 w-full" style={{ backgroundImage: 'url(/assets/others/end.png)', backgroundPosition: 'center 30%' }}>
+        <div className="absolute inset-0 bg-black opacity-60"></div>
+        <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">Join us on our Journey</h2>
+          <p className="text-lg md:text-xl leading-relaxed mb-8 text-gray-200">
+            We're redefining dining experiences and growing fast. If you're passionate about making an impact,
+            join our team to help shape the future of food delivery.
+          </p>
+          <a
+            href="/careers"
+            className="inline-block bg-red-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-red-700 transition-colors duration-200"
+          >
+            Join Our Team
+          </a>
+        </div>
+      </div>
+      
+      {/* Main Footer Content */}
+      <div className="pt-14 pb-8 px-4 sm:px-6">
         {/* Top grid: brand + four link groups (5 columns on lg) */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
             {/* Brand, blurb, contact, social */}
@@ -173,6 +193,7 @@ const Footer = () => (
                 </div>
             </div>
         </div>
+      </div>
     </footer>
 );
 
