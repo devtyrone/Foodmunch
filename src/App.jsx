@@ -13,7 +13,8 @@ import OpenPositions from './components/info/OpenPositions.jsx';
 import OurCulture from './components/info/OurCulture.jsx';
 import AboutUs from './components/info/AboutUs.jsx';
 import Pricing from './components/info/Pricing.jsx';
-import Business from './components/info/Business.jsx';
+import Enterprise from './components/pages/Enterprise.jsx';
+import FoodMunchForBusiness from './components/pages/foodmunchforbusiness.jsx';
 import Feedback from './components/info/Feedback.jsx';
 import Docs from './components/info/Docs.jsx';
 import Support from './components/info/Support.jsx';
@@ -218,7 +219,7 @@ const App = () => {
               <Route path="/careers/our-culture" element={<OurCulture />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/pricing" element={<Pricing />} />
-              <Route path="/enterprise" element={<Business />} />
+              <Route path="/enterprise" element={<Enterprise />} />
               <Route path="/docs" element={<Docs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<Blog />} />
@@ -230,6 +231,7 @@ const App = () => {
               <Route path="/mission" element={<Mission />} />
               <Route path="/sourcing" element={<Sourcing />} />
               <Route path="/restaurants" element={<Restaurants />} />
+              <Route path="/foodmunchforbusiness" element={<FoodMunchForBusiness />} />
               {/* Product detail and checkout routes */}
               <Route path="/item/:id" element={<ItemDetails />} />{/* New route for item details */}
               <Route path="/checkout" element={<Checkout />} />

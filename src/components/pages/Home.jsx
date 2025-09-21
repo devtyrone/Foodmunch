@@ -10,6 +10,7 @@
  */
 import React, { useRef, useEffect } from 'react';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaPlay } from 'react-icons/fa';
 import { FaApple, FaGooglePlay } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -17,10 +18,9 @@ import ProductsSection from '../sections/ProductsSection';
 import ChefSpotlight from '../sections/ChefSpotlight';
 import TestimonialsSection from '../sections/TestimonialsSection';
 import HeroSection from '../sections/HeroSection';
-import OperatingHoursSection from '../sections/OperatingHoursSection'; // Updated import
+import OperatingHoursSection from '../sections/OperatingHoursSection';
 
 // --- Marquee Words Constants ---
-// Phrases displayed in the top marquee strip
 const marqueeWords = [
   'SWIFT DELIVERY',
   'AFFORDABLE PRICES',
@@ -30,9 +30,70 @@ const marqueeWords = [
 
 const dynamicTexts = Array(30).fill(marqueeWords).flat();
 
-// --- Home Component ---
-// Marquee animations
-const marqueeKeyframes = `
+// --- Enhanced Animation Keyframes for Hero Text ---
+const heroAnimations = `
+  @keyframes slideInFromTop {
+    0% {
+      transform: translateY(-100%) scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(0) scale(1.05);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes slideInFromBottom {
+    0% {
+      transform: translateY(100%) scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(0) scale(0.95);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes glowPulse {
+    0%, 100% {
+      text-shadow: 0 0 10px rgba(255, 107, 12, 0.5);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(255, 107, 12, 0.8), 0 0 30px rgba(255, 107, 12, 0.4);
+    }
+  }
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+  .animate-slide-in-top {
+    animation: slideInFromTop 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .animate-slide-in-bottom {
+    animation: slideInFromBottom 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: 0.4s;
+  }
+  .animate-glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+`;
+
+// Add animation styles to the document head
+const styleElement = document.createElement('style');
+styleElement.innerHTML = heroAnimations + `
   @keyframes marquee {
     from { transform: translateX(0); }
     to { transform: translateX(calc(-100% / 2)); }
@@ -52,15 +113,10 @@ const marqueeKeyframes = `
     animation-play-state: paused;
   }
 `;
-
-// Add marquee styles to the document head
-const styleElement = document.createElement('style');
-styleElement.innerHTML = marqueeKeyframes;
 document.head.appendChild(styleElement);
 
 const Home = () => {
   // --- State Management ---
-  // Controls the autoplay gallery overlay button and image index
   const [showGallery, setShowGallery] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
 
@@ -73,7 +129,6 @@ const Home = () => {
   ];
 
   // --- Effects ---
-  // When the gallery is shown, cycle through images at an interval
   React.useEffect(() => {
     let interval;
     if (showGallery) {
@@ -84,7 +139,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [showGallery, foodImages.length]);
 
-  // Preload gallery images to warm the cache for instant transitions
   useEffect(() => {
     const controllers = [];
     foodImages.forEach((src) => {
@@ -94,18 +148,18 @@ const Home = () => {
       img.src = src;
       controllers.push(img);
     });
-    // No cleanup necessary for Image objects
   }, []);
 
   const handlePlay = () => {
     setShowGallery(true);
     setGalleryIndex(0);
   };
+
   // Ref to the top marquee container and pause flag used in the raf loop
   const marqueeRef = useRef(null);
   const isTopPausedRef = useRef(false);
 
-  // rAF-driven loop updates translateX. When paused/dragging, it holds position.
+  // rAF-driven loop updates translateX
   useEffect(() => {
     const marquee = marqueeRef.current;
     let offset = 0;
@@ -113,7 +167,6 @@ const Home = () => {
     let contentWidth = 0;
     let containerWidth = 0;
     if (marquee) {
-      // Duplicate content for seamless scroll
       if (marquee.children.length === dynamicTexts.length) {
         for (let i = 0; i < dynamicTexts.length; i++) {
           marquee.appendChild(marquee.children[i].cloneNode(true));
@@ -121,18 +174,15 @@ const Home = () => {
       }
       contentWidth = marquee.scrollWidth / 2;
       containerWidth = marquee.parentElement.offsetWidth;
-      // Start from the right edge of its own container
       offset = containerWidth;
       marquee.style.transform = `translateX(${offset}px)`;
     }
-    // Auto-scroll animation (paused while hovered)
     const animate = () => {
       if (!isTopPausedRef.current) {
         offset -= 1.5;
       }
       if (marquee) {
         marquee.style.transform = `translateX(${offset}px)`;
-        // Loop seamlessly for continuous effect within its own container
         if (offset < -contentWidth) {
           offset = containerWidth;
         }
@@ -145,24 +195,60 @@ const Home = () => {
 
   // --- Main Render (JSX) ---
   return (
-  <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 flex flex-col items-center justify-start">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 flex flex-col items-center justify-start">
       {/* --- Modern Hero Section --- */}
       <div className="w-full max-w-7xl mx-auto px-4 pt-8 pb-12">
         <div className="text-center space-y-6">
-          {/* Main Headline with Gradient */}
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 leading-tight">
-              Epic Flavors,<br />
-              <span className="text-gray-900">Effortless Delivery</span>
-            </h1>
+          {/* Main Headline with Enhanced Animations */}
+          <div className="space-y-4 relative">
+            <div className="relative overflow-hidden">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight">
+                <motion.span 
+                  className="relative block overflow-hidden"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <span className="relative inline-block">
+                    <span className="absolute inset-0 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent animate-gradient-x">
+                      Epic Flavors,
+                    </span>
+                    <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 opacity-90">
+                      Epic Flavors,
+                    </span>
+                  </span>
+                </motion.span>
+                <motion.span 
+                  className="block text-gray-900"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: 0.2,
+                    ease: [0.16, 1, 0.3, 1] 
+                  }}
+                >
+                  Effortless Delivery
+                </motion.span>
+              </h1>
+              <motion.div 
+                className="absolute -top-4 -right-4 w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-yellow-400 to-red-500 opacity-20 blur-xl"
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 0.2 }}
+                transition={{ 
+                  duration: 1,
+                  delay: 0.4,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+              ></motion.div>
+            </div>
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
               Restaurant-quality meals from Ibadan's finest kitchens, delivered fresh to your doorstep in minutes.
             </p>
           </div>
 
-          {/* App Store Buttons and Trust Badge - Moved Up */}
+          {/* App Store Buttons and Trust Badge */}
           <div className="flex flex-col items-center gap-4 mt-4">
-            {/* Trust Badge - Moved Up */}
             <div className="flex justify-center">
               <span className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-yellow-100 border border-orange-200 text-orange-700 px-6 py-2 rounded-full text-sm font-semibold shadow-sm">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -170,9 +256,7 @@ const Home = () => {
               </span>
             </div>
 
-            {/* Premium CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {/* Premium App Store Button */}
               <a 
                 href="#" 
                 className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 via-gray-50 to-white dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-0.5 hover:from-blue-500 hover:via-purple-500 hover:to-indigo-600 transition-all duration-500 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20" 
@@ -191,7 +275,6 @@ const Home = () => {
                 </div>
               </a>
 
-              {/* Premium Google Play Button */}
               <a 
                 href="#" 
                 className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 via-gray-50 to-white dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-0.5 hover:from-green-500 hover:via-blue-500 hover:to-purple-600 transition-all duration-500 transform hover:scale-105 hover:shadow-lg hover:shadow-green-500/20" 
@@ -215,7 +298,7 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Stats Bar - Moved Down */}
+          {/* Stats Bar */}
           <div className="flex flex-wrap justify-center gap-8 py-4 mt-2">
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-red-600">15+</div>
@@ -233,9 +316,8 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- Top Marquee Section ---
-      Auto-scrolling phrase strip (pauses on hover, resumes from same position) */}
-  <div className="overflow-hidden w-full mb-0.5" style={{background: '#df6b0c'}}>
+      {/* --- Top Marquee Section --- */}
+      <div className="overflow-hidden w-full mb-0.5" style={{background: '#df6b0c'}}>
         <div
           ref={marqueeRef}
           className="whitespace-nowrap text-base font-medium py-2 flex"
@@ -257,7 +339,6 @@ const Home = () => {
       {/* --- Enhanced Food Gallery Section --- */}
       <div className="w-full max-w-7xl mx-auto px-4 py-8">
         <div className="relative group">
-          {/* Gallery Container */}
           <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-gradient-to-br from-gray-900 to-gray-800">
             <img 
               src={showGallery ? foodImages[galleryIndex] : foodImages[0]} 
@@ -267,11 +348,7 @@ const Home = () => {
               loading="eager"
               decoding="async"
             />
-            
-            {/* Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-            
-            {/* Play Button */}
             {!showGallery && (
               <button 
                 onClick={handlePlay}
@@ -281,8 +358,6 @@ const Home = () => {
                 <FaPlay className="text-4xl ml-1 group-hover:ml-2 transition-all" />
               </button>
             )}
-            
-            {/* Gallery Info Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
               <div className="flex items-center justify-between">
                 <div>
@@ -308,8 +383,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-          
-          {/* Floating Stats Cards */}
           <div className="absolute -bottom-6 left-4 right-4 flex flex-wrap gap-4 justify-center md:justify-start">
             <div className="bg-white rounded-2xl shadow-lg p-4 flex items-center gap-3 backdrop-blur-sm">
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
@@ -344,13 +417,9 @@ const Home = () => {
           </p>
         </div>
 
-        {/* Enhanced Marquee Container */}
         <div className="relative overflow-hidden py-8">
-          {/* Gradient Fade Effect */}
           <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-          
-          {/* First Row - Moving Right */}
           <div className="flex mb-8 group">
             <div className="flex space-x-8 animate-marquee whitespace-nowrap">
               {[...restaurantImages, ...restaurantImages].map((img, idx) => (
@@ -398,8 +467,6 @@ const Home = () => {
               ))}
             </div>
           </div>
-
-          {/* Second Row - Moving Left */}
           <div className="flex group">
             <div className="flex space-x-8 animate-marquee-reverse whitespace-nowrap">
               {[...restaurantImages, ...restaurantImages].reverse().map((img, idx) => (
@@ -447,8 +514,6 @@ const Home = () => {
               ))}
             </div>
           </div>
-
-          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
             <Link 
               to="/restaurants" 
@@ -479,9 +544,7 @@ const Home = () => {
               Experience the future of food delivery with our cutting-edge features
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Feature 1 */}
             <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
               <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">⚡</span>
@@ -491,8 +554,6 @@ const Home = () => {
                 Average delivery time of 20 minutes. Real-time tracking keeps you updated every step of the way.
               </p>
             </div>
-
-            {/* Feature 2 */}
             <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">🛡️</span>
@@ -502,8 +563,6 @@ const Home = () => {
                 Contactless delivery, secure payments, and verified restaurants ensure your safety and peace of mind.
               </p>
             </div>
-
-            {/* Feature 3 */}
             <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">🎯</span>
@@ -513,8 +572,6 @@ const Home = () => {
                 AI-powered suggestions based on your preferences, dietary needs, and local favorites.
               </p>
             </div>
-
-            {/* Feature 4 */}
             <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
               <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">💰</span>
@@ -524,8 +581,6 @@ const Home = () => {
                 Competitive pricing with exclusive deals, loyalty rewards, and group order discounts.
               </p>
             </div>
-
-            {/* Feature 5 */}
             <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
               <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">🌟</span>
@@ -535,8 +590,6 @@ const Home = () => {
                 Handpicked restaurants, fresh ingredients, and quality checks ensure every meal exceeds expectations.
               </p>
             </div>
-
-            {/* Feature 6 */}
             <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
               <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">📱</span>
@@ -550,53 +603,35 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- Products Section --- */}
-	  <ProductsSection />
-      {/* --- Chef Spotlight Section --- */}
-	  <ChefSpotlight />
-      {/* --- Testimonials Section --- */}
-	  <TestimonialsSection />
-      {/* --- Operating Hours Section --- */}
-	  <OperatingHoursSection />
-      {/* --- Hero Section (possibly a duplicated or general hero) --- */}
-	  <HeroSection />
+      <ProductsSection />
+      <ChefSpotlight />
+      <TestimonialsSection />
+      <OperatingHoursSection />
+      <HeroSection />
     </div>
   );
 };
+
 export default Home;
 
 // --- Enhanced MarqueeGrid Component ---
-// Premium restaurant carousel with world-class smooth movement
 const restaurantImages = Array.from({length: 10}, (_, i) => `/assets/resturants/${i+1}.jpeg`);
 
 const restaurantInfo = [
-   "Chicken Republic", "Domino's Pizza", "Five Continents", "Ibachi Chinese", "Kilimanjaro", "Item7go", 
+  "Chicken Republic", "Domino's Pizza", "Five Continents", "Ibachi Chinese", "Kilimanjaro", "Item7go", 
   "Mr. Bigg's", "KFC", "The Place", "Ultima Lounge", "Vintage Lounge", "Wimpy's", 
 ];
 
-/**
- * MarqueeGrid - World-Class Restaurant Carousel
- * Features:
- * - Buttery smooth 60fps animations with momentum physics
- * - Elastic push-back with spring animations
- * - Velocity-based momentum scrolling
- * - Premium visual design with depth and shadows
- * - Seamless infinite loop with no visible seams
- */
 function MarqueeGrid() {
-  // --- State and Refs ---
   const marqueeRef = useRef(null);
   const containerRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   
-  // Animation state
   const offsetRef = useRef(0);
   const velocityRef = useRef(0);
   const targetOffsetRef = useRef(0);
   const lastTimeRef = useRef(0);
-  
-  // Interaction state
   const draggingRef = useRef(false);
   const startXRef = useRef(0);
   const startOffsetRef = useRef(0);
@@ -604,19 +639,16 @@ function MarqueeGrid() {
   const lastMoveTimeRef = useRef(0);
   const momentumRef = useRef(0);
 
-  // --- Premium Animation System ---
   useEffect(() => {
     const marquee = marqueeRef.current;
     let animationFrame;
-    let cardWidth = 340; // Card width + gap
+    let cardWidth = 340;
     let totalWidth = 0;
     let containerWidth = 0;
 
     if (marquee && containerRef.current) {
       totalWidth = restaurantImages.length * cardWidth;
       containerWidth = containerRef.current.offsetWidth;
-      
-      // Initialize position
       offsetRef.current = 0;
       targetOffsetRef.current = 0;
       marquee.style.transform = `translateX(${offsetRef.current}px)`;
@@ -624,7 +656,7 @@ function MarqueeGrid() {
 
     const animate = (currentTime) => {
       if (!lastTimeRef.current) lastTimeRef.current = currentTime;
-      const deltaTime = Math.min(currentTime - lastTimeRef.current, 16.67); // Cap at 60fps
+      const deltaTime = Math.min(currentTime - lastTimeRef.current, 16.67);
       lastTimeRef.current = currentTime;
 
       let currentOffset = offsetRef.current;
@@ -632,27 +664,20 @@ function MarqueeGrid() {
       let velocity = velocityRef.current;
 
       if (!draggingRef.current) {
-        // Auto-scroll when not dragging
         if (!isPaused && !isHovered) {
-          targetOffset -= 0.8; // Smooth auto-scroll speed
+          targetOffset -= 0.8;
         }
-
-        // Apply momentum after drag release
         if (momentumRef.current !== 0) {
           targetOffset += momentumRef.current;
-          momentumRef.current *= 0.95; // Momentum decay
+          momentumRef.current *= 0.95;
           if (Math.abs(momentumRef.current) < 0.1) {
             momentumRef.current = 0;
           }
         }
-
-        // Smooth interpolation with easing
-        const ease = 0.08; // Higher = more responsive, lower = smoother
+        const ease = 0.08;
         const diff = targetOffset - currentOffset;
-        velocity = velocity * 0.9 + diff * ease; // Add momentum
+        velocity = velocity * 0.9 + diff * ease;
         currentOffset += velocity;
-
-        // Seamless infinite loop
         const loopPoint = -totalWidth;
         if (currentOffset <= loopPoint) {
           currentOffset += totalWidth;
@@ -661,17 +686,13 @@ function MarqueeGrid() {
           currentOffset -= totalWidth;
           targetOffset -= totalWidth;
         }
-
         offsetRef.current = currentOffset;
         targetOffsetRef.current = targetOffset;
         velocityRef.current = velocity;
       }
-
-      // Apply transform with hardware acceleration
       if (marquee) {
         marquee.style.transform = `translate3d(${currentOffset}px, 0, 0)`;
       }
-
       animationFrame = requestAnimationFrame(animate);
     };
 
@@ -679,7 +700,6 @@ function MarqueeGrid() {
     return () => cancelAnimationFrame(animationFrame);
   }, [isPaused, isHovered]);
 
-  // --- Enhanced Interaction Handlers ---
   const handleInteractionStart = (clientX) => {
     draggingRef.current = true;
     startXRef.current = clientX;
@@ -698,24 +718,21 @@ function MarqueeGrid() {
     const deltaX = clientX - startXRef.current;
     const timeDelta = currentTime - lastMoveTimeRef.current;
     
-    // Calculate velocity for momentum
     if (timeDelta > 0) {
       const moveVelocity = (clientX - lastMoveXRef.current) / timeDelta;
-      velocityRef.current = moveVelocity * 16; // Scale for smooth momentum
+      velocityRef.current = moveVelocity * 16;
     }
     
     let newOffset = startOffsetRef.current + deltaX;
-    
-    // Elastic boundaries with spring-back
     const cardWidth = 340;
     const totalWidth = restaurantImages.length * cardWidth;
     const elasticStrength = 0.3;
     
     if (newOffset > 0) {
-      newOffset = newOffset * elasticStrength; // Elastic push-back from right
+      newOffset = newOffset * elasticStrength;
     } else if (newOffset < -totalWidth) {
       const overflow = newOffset + totalWidth;
-      newOffset = -totalWidth + (overflow * elasticStrength); // Elastic push-back from left
+      newOffset = -totalWidth + (overflow * elasticStrength);
     }
     
     offsetRef.current = newOffset;
@@ -729,33 +746,28 @@ function MarqueeGrid() {
     if (!draggingRef.current) return;
     
     draggingRef.current = false;
-    
-    // Apply momentum based on final velocity
     const finalVelocity = velocityRef.current;
-    momentumRef.current = finalVelocity * 0.5; // Momentum multiplier
+    momentumRef.current = finalVelocity * 0.5;
     
-    // Spring back if outside bounds
     const cardWidth = 340;
     const totalWidth = restaurantImages.length * cardWidth;
     
     if (offsetRef.current > 0) {
-      targetOffsetRef.current = -cardWidth * 0.1; // Small bounce back
+      targetOffsetRef.current = -cardWidth * 0.1;
       momentumRef.current = 0;
     } else if (offsetRef.current < -totalWidth) {
-      targetOffsetRef.current = -totalWidth + cardWidth * 0.1; // Small bounce back
+      targetOffsetRef.current = -totalWidth + cardWidth * 0.1;
       momentumRef.current = 0;
     }
     
-    setTimeout(() => setIsPaused(false), 100); // Brief pause before auto-scroll resumes
+    setTimeout(() => setIsPaused(false), 100);
   };
 
-  // --- Premium Card Component ---
   const RestaurantCard = ({ image, name, index }) => (
     <div 
       className="relative bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden"
       style={{ minWidth: '320px', width: '320px', height: '280px' }}
     >
-      {/* Image Container */}
       <div className="relative h-48 overflow-hidden">
         <img 
           src={image} 
@@ -764,14 +776,10 @@ function MarqueeGrid() {
           loading="lazy" 
           decoding="async"
         />
-        
-        {/* Floating Badge */}
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700 shadow-lg">
           ⭐ 4.{Math.floor(Math.random() * 4) + 5}
         </div>
       </div>
-      
-      {/* Content */}
       <div className="p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-2">
           {name}
@@ -779,8 +787,6 @@ function MarqueeGrid() {
         <p className="text-gray-600 text-sm mb-3">
           Authentic flavors • Fresh ingredients
         </p>
-        
-        {/* Action Row */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span className="w-2 h-2 bg-green-500 rounded-full"></span>
@@ -794,7 +800,6 @@ function MarqueeGrid() {
     </div>
   );
 
-  // --- Main Render ---
   return (
     <div 
       ref={containerRef}
@@ -802,18 +807,15 @@ function MarqueeGrid() {
       style={{ height: '320px' }}
       onMouseEnter={() => {
         setIsHovered(true);
-        setIsPaused(true);  // Pause auto-scrolling on hover
+        setIsPaused(true);
       }}
       onMouseLeave={() => {
         setIsHovered(false);
-        setIsPaused(false); // Resume auto-scrolling when not hovering
+        setIsPaused(false);
       }}
     >
-      {/* Gradient Fade Edges */}
       <div className="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none"></div>
       <div className="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none"></div>
-      
-      {/* Carousel Container */}
       <div
         ref={marqueeRef}
         className="flex gap-5 items-center px-4 select-none cursor-grab active:cursor-grabbing"
@@ -833,7 +835,6 @@ function MarqueeGrid() {
         }}
         onTouchEnd={handleInteractionEnd}
       >
-        {/* Render cards twice for seamless loop */}
         {[...restaurantImages, ...restaurantImages].map((img, idx) => (
           <RestaurantCard
             key={idx}
@@ -843,8 +844,6 @@ function MarqueeGrid() {
           />
         ))}
       </div>
-      
-      {/* Interaction Hint */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
         ← Drag to explore →
       </div>

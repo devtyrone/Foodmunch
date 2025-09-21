@@ -84,9 +84,10 @@ const Footer = () => (
                 <h3 className="uppercase tracking-widest text-xs md:text-[12px] text-gray-300 mb-4 font-bold">Product</h3>
                 <ul className="space-y-2 text-sm">
                     <li><Link to="/restaurants" className="text-gray-400 hover:text-white transition-colors">Restaurants</Link></li>
-                    <li><Link to="/menus" className="text-gray-400 hover:text-white transition-colors">Menus</Link></li>
+                    <li><Link to="/menu" className="text-gray-400 hover:text-white transition-colors">Menus</Link></li>
+                    <li><Link to="/enterprise" className="text-gray-400 hover:text-white transition-colors">Enterprise</Link></li>
+                    <li><Link to="/foodmunchforbusiness" className="text-gray-400 hover:text-white transition-colors">Foodmunch for Business</Link></li>
                     <li><Link to="/pricing" className="text-gray-400 hover:text-white transition-colors">Pricing</Link></li>
-                    <li><Link to="/enterprise" className="text-gray-400 hover:text-white transition-colors">Foodmunch for Business</Link></li>
                 </ul>
             </div>
 
