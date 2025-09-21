@@ -1,12 +1,38 @@
-import React, { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useCart } from '../../hooks/useCart'
-import { FaShoppingCart, FaCreditCard, FaArrowLeft, FaPlus, FaMinus, FaStar, FaHeart, FaShare } from 'react-icons/fa'
+import { FaShoppingCart, FaCreditCard, FaArrowLeft, FaPlus, FaMinus, FaStar, FaHeart, FaShare, FaTag } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 import CartOverlay from '../overlays/CartOverlay'
 import { formatNGN } from '../../utils/currency'
 
 // Main food items data
 const restaurantData = [
+  { 
+    id: 1000, 
+    name: 'Family Feast Platter', 
+    desc: 'A bountiful feast for the whole family with a variety of our most popular dishes!', 
+    img: '/assets/Foodlist/13.jpeg', 
+    price: 20000.00, 
+    originalPrice: 25000.00,
+    description_long: 'Our signature Family Feast Platter is perfect for gatherings and special occasions. This extensive platter features a variety of our most popular dishes, including both Jollof and Fried Rice, tender grilled meats, and refreshing sides. Serves 4-6 people.', 
+    category: 'special', 
+    rating: 4.9, 
+    reviews: 156,
+    includes: [
+      'Jollof Rice (serves 4-6)',
+      'Grilled Chicken (1 whole)',
+      'Fried Rice (serves 4-6)',
+      'Grilled Beef (6 skewers)',
+      'Peppered Gizzards',
+      'Fried Plantains',
+      'Coleslaw & Salad',
+      '4 Soft Drinks (50cl)'
+    ],
+    cookTime: '45-60 min',
+    servingSize: '4-6 people',
+    isSpecial: true
+  },
   { id: 1, name: 'Fufu and Egusi with Chicken', desc: 'A savory West African dish featuring starchy fufu, rich egusi stew, and tender chicken!', img: '/assets/Foodlist/1.jpeg', price: 7500.00, description_long: 'A hearty West African classic: smooth fufu served with rich egusi stew and tender chicken.', category: 'main', rating: 4.8, reviews: 124 },
   { id: 2, name: 'Fufu and Egusi with Fish', desc: 'A flavorful West African meal with smooth fufu, nutty egusi stew, and succulent fish.', img: '/assets/Foodlist/2.jpeg', price: 6500.00, description_long: 'Silky fufu paired with nutty egusi stew and premium fish for a comforting, flavorful meal.', category: 'main', rating: 4.7, reviews: 98 },
   { id: 3, name: 'Beef Shawarma', desc: 'Savory beef, cumin-marinated, slow-roasted, served with pickles, flatbread.', img: '/assets/Foodlist/3.jpeg', price: 2800.00, description_long: 'Juicy cumin-marinated beef, slow-roasted and wrapped with veggies and creamy sauce.', category: 'main', rating: 4.6, reviews: 156 },
@@ -52,13 +78,58 @@ const allItems = [...restaurantData, ...drinksData, ...extrasData];
 
 const ItemDetails = () => {
   const { id } = useParams()
+  const location = useLocation()
   const navigate = useNavigate()
   const { addToCart, openCart, isCartOpen, closeCart, cartCount, clearCart } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('drinks')
   const [isFavorite, setIsFavorite] = useState(false)
+  const [promoCode, setPromoCode] = useState('')
+  const [discountApplied, setDiscountApplied] = useState(false)
+  const [discountAmount, setDiscountAmount] = useState(0)
+  const [promoCodeError, setPromoCodeError] = useState('')
+  const [isSpecialDeal, setIsSpecialDeal] = useState(false)
+  const [remainingUses, setRemainingUses] = useState(null)
 
-  const item = allItems.find((r) => r.id === parseInt(id))
+  // Check if this is the special family platter deal from navigation state
+  useEffect(() => {
+    if (location.state?.isSpecialDeal) {
+      setIsSpecialDeal(true);
+      setPromoCode(''); // Don't prefill the promo code
+      setRemainingUses(location.state.availability || 0);
+    }
+  }, [location.state])
+
+  // Find the item, including the special family platter deal
+  let item = allItems.find((r) => r.id === parseInt(id));
+  
+  // If item is not found and it's a special deal (ID 1000)
+  if (!item && parseInt(id) === 1000 && location.state?.isSpecialDeal) {
+    item = {
+      id: 1000,
+      name: 'Family Feast Platter',
+      originalPrice: location.state?.originalPrice || 20000,
+      price: location.state?.originalPrice || 20000, // Will be updated if promo is applied
+      description_long: 'Our signature Family Feast Platter is perfect for gatherings and special occasions. This extensive platter features a variety of our most popular dishes, including both Jollof and Fried Rice, tender grilled meats, and refreshing sides. Serves 4-6 people.',
+      img: '/assets/Foodlist/13.jpeg',
+      category: 'special',
+      rating: 4.9,
+      reviews: 156,
+      includes: [
+        'Jollof Rice (serves 4-6)',
+        'Grilled Chicken (1 whole)',
+        'Fried Rice (serves 4-6)',
+        'Grilled Beef (6 skewers)',
+        'Peppered Gizzards',
+        'Fried Plantains',
+        'Coleslaw & Salad',
+        '4 Soft Drinks (50cl)'
+      ],
+      cookTime: '45-60 min',
+      servingSize: '4-6 people',
+      isSpecial: true
+    };
+  }
 
   if (!item) {
     return (
@@ -80,18 +151,141 @@ const ItemDetails = () => {
     )
   }
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart({ id: item.id, name: item.name, price: item.price, image: item.img })
+  const applyPromoCode = (code) => {
+    if (!code) return false
+    
+    // Check if it's the family platter special code
+    if (code.toUpperCase() === 'FAMILY20' && isSpecialDeal) {
+      if (remainingUses > 0) {
+        const discount = item.originalPrice * 0.2 // 20% discount
+        setDiscountAmount(discount)
+        setDiscountApplied(true)
+        setPromoCodeError('')
+        
+        // Update the item price with discount
+        item.price = item.originalPrice - discount
+        
+        toast.success('Promo code applied! 20% discount added.', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        
+        return true
+      } else {
+        setPromoCodeError('This promo code has reached its usage limit')
+        return false
+      }
+    } else if (code && !isSpecialDeal) {
+      setPromoCodeError('This promo code is not valid for this item')
+      return false
     }
+    
+    return false
+  }
+  
+  const handlePromoCodeSubmit = (e) => {
+    e.preventDefault()
+    if (!promoCode.trim()) {
+      setPromoCodeError('Please enter a promo code')
+      return
+    }
+    
+    applyPromoCode(promoCode)
+  }
+  
+  const handleAddToCart = () => {
+    // Calculate the final price based on whether a discount is applied
+    const finalPrice = discountApplied ? item.price : (item.originalPrice || item.price);
+    
+    // Create cart item with all necessary details
+    const cartItem = { 
+      id: item.id, 
+      name: item.name, 
+      price: finalPrice,  // Use the calculated final price
+      originalPrice: item.originalPrice || item.price,  // Keep track of original price
+      image: item.img,
+      promoCode: discountApplied ? promoCode : undefined,
+      description: item.desc,
+      quantity: quantity  // Include the quantity in the cart item
+    };
+    
+    // Add the item to cart with the correct quantity
+    addToCart(cartItem);
+    
+    // If this was a special deal with limited uses, update the remaining uses
+    if (isSpecialDeal && discountApplied && remainingUses !== null) {
+      const newRemainingUses = Math.max(0, remainingUses - quantity);
+      setRemainingUses(newRemainingUses);
+      
+      if (newRemainingUses === 0) {
+        // Reset discount if no more uses left
+        setDiscountApplied(false);
+        setDiscountAmount(0);
+        item.price = item.originalPrice;
+        
+        toast.info('The promo code has reached its usage limit', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    }
+    
+    // Show success message
+    toast.success(`${quantity} ${quantity > 1 ? 'items' : 'item'} added to cart`, {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    })
   }
 
   const handleBuyNow = () => {
-    clearCart()
-    for (let i = 0; i < quantity; i++) {
-      addToCart({ id: item.id, name: item.name, price: item.price, image: item.img })
+    clearCart();
+    
+    // Calculate the final price based on whether a discount is applied
+    const finalPrice = discountApplied ? item.price : (item.originalPrice || item.price);
+    
+    // Create cart item with all necessary details
+    const cartItem = { 
+      id: item.id, 
+      name: item.name, 
+      price: finalPrice,  // Use the calculated final price
+      originalPrice: item.originalPrice || item.price,  // Keep track of original price
+      image: item.img,
+      promoCode: discountApplied ? promoCode : undefined,
+      description: item.desc,
+      quantity: quantity  // Include the quantity in the cart item
+    };
+    
+    // Add the item to cart with the correct quantity
+    addToCart(cartItem);
+    
+    // If this was a special deal with limited uses, update the remaining uses
+    if (isSpecialDeal && discountApplied && remainingUses !== null) {
+      const newRemainingUses = Math.max(0, remainingUses - quantity);
+      setRemainingUses(newRemainingUses);
+      
+      if (newRemainingUses === 0) {
+        // Reset discount if no more uses left
+        setDiscountApplied(false);
+        setDiscountAmount(0);
+        item.price = item.originalPrice;
+      }
     }
-    openCart()
+    
+    // Open the cart and navigate to checkout
+    openCart();
   }
 
   const incrementQuantity = () => setQuantity(prev => prev + 1)
@@ -172,15 +366,119 @@ const ItemDetails = () => {
                 </div>
               </div>
 
+              {isSpecialDeal && (
+                <div className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-md">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-yellow-700">
+                        Special family platter deal! Limited quantity available at this price.
+                      </p>
+                      {remainingUses !== null && (
+                        <p className="mt-1 text-sm text-yellow-600">
+                          Only {remainingUses} {remainingUses === 1 ? 'use' : 'uses'} remaining
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              
               <p className="text-xl text-gray-600 leading-relaxed mb-6">
                 {item.description_long || item.desc}
               </p>
+              
+              {item.includes && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">This platter includes:</h3>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {item.includes.map((include, index) => (
+                      <li key={index} className="flex items-start">
+                        <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-700">{include}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-              <div className="text-4xl font-black text-red-600 mb-8">
-                {formatNGN(item.price)}
+              <div className="mb-8">
+                {discountApplied ? (
+                  <div className="space-y-2">
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-2xl text-gray-400 line-through">
+                        {formatNGN(item.originalPrice || item.price)}
+                      </span>
+                      <span className="text-4xl font-black text-red-600">
+                        {formatNGN(item.price)}
+                      </span>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {Math.round((discountAmount / (item.originalPrice || item.price)) * 100)}% OFF
+                      </span>
+                    </div>
+                    <p className="text-sm text-green-600 flex items-center">
+                      <FaTag className="mr-1" /> Promo code {promoCode} applied!
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-4xl font-black text-red-600">
+                    {formatNGN(item.originalPrice || item.price)}
+                  </div>
+                )}
               </div>
             </div>
 
+            {/* Promo Code Section - Only show for special deals */}
+            {isSpecialDeal && (
+              <div className="mb-6">
+                <form onSubmit={handlePromoCodeSubmit} className="space-y-2">
+                  <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700">
+                    Promo Code
+                  </label>
+                  <div className="flex rounded-md shadow-sm">
+                    <input
+                      type="text"
+                      id="promoCode"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                      placeholder="Enter promo code"
+                      disabled={discountApplied}
+                      className={`flex-1 min-w-0 block w-full px-4 py-3 rounded-l-md border text-black ${
+                        promoCodeError ? 'border-red-300' : 'border-gray-300'
+                      } focus:ring-red-500 focus:border-red-500 sm:text-sm ${
+                        discountApplied ? 'bg-gray-100' : ''
+                      }`}
+                    />
+                    <button
+                      type="submit"
+                      disabled={!promoCode.trim() || discountApplied}
+                      className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md text-white ${
+                        discountApplied
+                          ? 'bg-green-600 hover:bg-green-700'
+                          : 'bg-red-600 hover:bg-red-700'
+                      } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    >
+                      {discountApplied ? 'Applied!' : 'Apply'}
+                    </button>
+                  </div>
+                  {promoCodeError && (
+                    <p className="mt-1 text-sm text-red-600">{promoCodeError}</p>
+                  )}
+                  {discountApplied && (
+                    <p className="mt-1 text-sm text-green-600">
+                      Promo code applied! You saved {formatNGN(discountAmount * quantity)}
+                    </p>
+                  )}
+                </form>
+              </div>
+            )}
+            
             {/* Quantity Selector */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900">Quantity</h3>
@@ -198,34 +496,71 @@ const ItemDetails = () => {
                   </span>
                   <button
                     onClick={incrementQuantity}
-                    className="w-12 h-12 rounded-r-2xl hover:bg-gray-50 flex items-center justify-center transition-colors"
+                    disabled={isSpecialDeal && remainingUses !== null && quantity >= remainingUses}
+                    className="w-12 h-12 rounded-r-2xl hover:bg-gray-50 flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <FaPlus className="text-gray-600" />
                   </button>
                 </div>
-                <div className="text-lg text-gray-600">
-                  Total: <span className="font-bold text-gray-900">{formatNGN(item.price * quantity)}</span>
-                </div>
+                <span className="text-gray-500 text-sm">
+                  {quantity} {quantity === 1 ? 'item' : 'items'} • {formatNGN((discountApplied ? item.price : (item.originalPrice || item.price)) * quantity)}
+                  {discountApplied && (
+                    <span className="ml-1 text-green-600">
+                      (You save {formatNGN(discountAmount * quantity)})
+                    </span>
+                  )}
+                </span>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 bg-white border-2 border-red-600 text-red-600 py-4 px-8 rounded-2xl text-lg font-bold hover:bg-red-50 transition-colors flex items-center justify-center gap-3 shadow-sm"
+                disabled={isSpecialDeal && remainingUses !== null && remainingUses <= 0}
+                className={`flex-1 ${
+                  isSpecialDeal && remainingUses !== null && remainingUses <= 0
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-gray-900 hover:bg-gray-800'
+                } text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2`}
               >
-                <FaShoppingCart size={20} />
-                Add to Cart
+                <FaShoppingCart /> 
+                {isSpecialDeal && remainingUses !== null && remainingUses <= 0
+                  ? 'Deal Expired'
+                  : 'Add to Cart'}
               </button>
               <button
                 onClick={handleBuyNow}
-                className="flex-1 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white py-4 px-8 rounded-2xl text-lg font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-3"
+                disabled={isSpecialDeal && remainingUses !== null && remainingUses <= 0}
+                className={`flex-1 ${
+                  isSpecialDeal && remainingUses !== null && remainingUses <= 0
+                    ? 'bg-red-400 cursor-not-allowed'
+                    : 'bg-red-600 hover:bg-red-700'
+                } text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2`}
               >
-                <FaCreditCard size={20} />
-                Buy Now
+                <FaCreditCard /> 
+                {isSpecialDeal && remainingUses !== null && remainingUses <= 0
+                  ? 'Deal Expired'
+                  : 'Buy Now'}
               </button>
             </div>
+            
+            {isSpecialDeal && remainingUses !== null && remainingUses <= 0 && (
+              <div className="mt-4 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-md">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm text-red-700">
+                      This deal has reached its maximum number of uses. Please check back for future specials!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )} 
           </div>
         </div>
 

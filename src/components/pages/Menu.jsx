@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import PromoSection from '../sections/PromoSection';
 import HeroSection from '../sections/HeroSection';
-import { FaShoppingCart, FaSearch, FaTimes, FaFilter, FaStar, FaHeart } from 'react-icons/fa';
+import { FaShoppingCart, FaSearch, FaTimes, FaFilter, FaStar, FaHeart, FaUtensils, FaUsers, FaTag } from 'react-icons/fa';
 import CartOverlay from '../overlays/CartOverlay';
 import { useCart } from '../../hooks/useCart';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { formatNGN } from '../../utils/currency';
 
 const foodItems = [
@@ -31,6 +31,7 @@ const foodItems = [
 const categories = ['All', 'Traditional', 'Fast Food', 'Asian', 'Grilled', 'Breakfast'];
 
 const Menu = () => {
+  const navigate = useNavigate();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cartCount, addToCart: addItemToCart } = useCart();
   const [searchTerm, setSearchTerm] = useState('');
@@ -129,8 +130,157 @@ const Menu = () => {
         </div>
       </div>
 
+      {/* Family Feast Special */}
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-3xl p-8 mb-12 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('/assets/pattern.png')] opacity-5"></div>
+          <div className="relative z-10">
+            <div className="text-center mb-8">
+              <div className="flex justify-center mb-4">
+                <span className="inline-block bg-gradient-to-r from-red-100 to-orange-100 text-red-700 px-6 py-2 rounded-full text-sm font-medium shadow-sm">
+                  🎉 LIMITED TIME OFFER
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                🍽️ Family Feast Platter
+              </h2>
+              <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
+                Treat your loved ones to an unforgettable dining experience! Our Family Feast Platter is a culinary journey featuring our most-loved dishes, perfectly portioned for 4-6 people. Each bite is a celebration of flavor and tradition.
+              </p>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 max-w-2xl mx-auto">
+                <div className="text-center p-3 bg-white/50 rounded-xl">
+                  <div className="text-2xl font-bold text-red-600">4-6</div>
+                  <div className="text-sm text-gray-600">People</div>
+                </div>
+                <div className="text-center p-3 bg-white/50 rounded-xl">
+                  <div className="text-2xl font-bold text-red-600">10+</div>
+                  <div className="text-sm text-gray-600">Dishes</div>
+                </div>
+                <div className="text-center p-3 bg-white/50 rounded-xl">
+                  <div className="text-2xl font-bold text-red-600">45<span className="text-base">min</span></div>
+                  <div className="text-sm text-gray-600">Ready Time</div>
+                </div>
+                <div className="text-center p-3 bg-white/50 rounded-xl">
+                  <div className="text-2xl font-bold text-red-600">4.9<span className="text-base">/5</span></div>
+                  <div className="text-sm text-gray-600">Rating</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Centered Image */}
+            <div className="relative max-w-2xl mx-auto mb-8">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+                <img 
+                  src="/assets/Foodlist/13.jpeg" 
+                  alt="Family Feast Platter"
+                  className="w-full h-64 md:h-96 object-cover"
+                />
+                <div className="absolute bottom-0 right-0 bg-gradient-to-r from-red-600 to-orange-600 text-white px-5 py-2 rounded-tl-2xl shadow-lg">
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-sm line-through opacity-90">₦25,000</span>
+                    <span className="text-xl font-bold">
+                      ₦20,000
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border-l-4 border-amber-400 p-6 mb-8 rounded-r-lg max-w-2xl mx-auto shadow-sm">
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="flex-shrink-0 bg-amber-100 p-3 rounded-full">
+                  <svg className="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                  </svg>
+                </div>
+                <div className="text-center md:text-left">
+                  <h4 className="font-bold text-gray-900 text-lg mb-1">Special Family Deal! 🎉</h4>
+                  <p className="text-gray-700 text-sm">
+                    Use code <span className="font-mono font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded">FAMILY20</span> at checkout to get 20% off your first order! 
+                    <span className="block mt-1 font-medium text-amber-700">Save ₦5,000 instantly</span>
+                  </p>
+                </div>
+                <div className="hidden md:block flex-shrink-0">
+                  <div className="flex items-center space-x-1 text-amber-600 text-sm">
+                    <span className="font-medium">Limited Time Offer</span>
+                    <svg className="h-4 w-4 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Social Proof */}
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <div className="flex -space-x-2">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <img 
+                    key={i}
+                    src={`/assets/avatars/avatar-${i}.jpg`} 
+                    alt="Happy customer"
+                    className="w-8 h-8 rounded-full border-2 border-white"
+                    onError={(e) => {
+                      e.target.src = `https://i.pravatar.cc/150?img=${i+10}`;
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="text-sm text-gray-600">
+                <div className="flex items-center">
+                  <span className="text-yellow-400 mr-1">★★★★★</span>
+                  <span className="font-medium text-gray-900">4.9</span>
+                  <span className="mx-1">•</span>
+                  <span>200+ Happy Families Served</span>
+                </div>
+                <div className="text-xs text-gray-500">Order in the next 2 hours for same-day delivery</div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+              <button
+                onClick={() => {
+                  addItemToCart({
+                    id: 1000,
+                    name: 'Family Feast Platter',
+                    price: 25000.00,
+                    originalPrice: 25000.00,
+                    image: '/assets/Foodlist/13.jpeg',
+                    quantity: 1,
+                    promoCode: 'FAMILY20',
+                    isSpecialDeal: true,
+                    requiresPromoCode: true
+                  });
+                }}
+                className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              >
+                <FaShoppingCart />
+                Add to Cart
+              </button>
+              <button
+                onClick={() => {
+                  navigate(`/item/1000`, { 
+                    state: { 
+                      isSpecialDeal: true,
+                      promoCode: 'FAMILY20',
+                      originalPrice: 25000,
+                      availability: 100
+                    } 
+                  });
+                }}
+                className="flex items-center justify-center gap-2 border-2 border-gray-300 hover:border-red-500 text-gray-900 font-bold py-3 px-6 rounded-xl transition-all duration-300"
+              >
+                <FaUtensils />
+                View Menu
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Menu Items */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 pb-12">
         {filteredItems.length === 0 ? (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -233,8 +383,9 @@ const Menu = () => {
                       </button>
                       <Link
                         to={`/item/${item.id}`}
-                        className="flex-1 bg-white border-2 border-gray-300 hover:border-red-500 hover:bg-gray-50 text-gray-900 py-3 px-4 rounded-xl font-medium transition-all duration-200 text-center"
+                        className="flex-1 bg-white border-2 border-gray-300 hover:border-red-500 hover:bg-gray-50 text-gray-900 py-3 px-4 rounded-xl font-bold transition-all duration-200 text-center flex items-center justify-center gap-2"
                       >
+                        <FaUtensils size={14} />
                         View Menu
                       </Link>
                     </div>

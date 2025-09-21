@@ -31,6 +31,33 @@ const marqueeWords = [
 const dynamicTexts = Array(30).fill(marqueeWords).flat();
 
 // --- Home Component ---
+// Marquee animations
+const marqueeKeyframes = `
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% / 2)); }
+  }
+  @keyframes marquee-reverse {
+    from { transform: translateX(calc(-100% / 2)); }
+    to { transform: translateX(0); }
+  }
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+  .animate-marquee-reverse {
+    animation: marquee-reverse 45s linear infinite;
+  }
+  .group:hover .animate-marquee,
+  .group:hover .animate-marquee-reverse {
+    animation-play-state: paused;
+  }
+`;
+
+// Add marquee styles to the document head
+const styleElement = document.createElement('style');
+styleElement.innerHTML = marqueeKeyframes;
+document.head.appendChild(styleElement);
+
 const Home = () => {
   // --- State Management ---
   // Controls the autoplay gallery overlay button and image index
@@ -317,19 +344,123 @@ const Home = () => {
           </p>
         </div>
 
-        {/* Interactive Restaurant Carousel */}
-        <div className="relative">
-          <div className="w-full overflow-x-hidden py-6">
-            <MarqueeGrid />
-          </div>
+        {/* Enhanced Marquee Container */}
+        <div className="relative overflow-hidden py-8">
+          {/* Gradient Fade Effect */}
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
           
-          {/* Enhanced CTA Section */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-            <Link to="/restaurants" className="group bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
+          {/* First Row - Moving Right */}
+          <div className="flex mb-8 group">
+            <div className="flex space-x-8 animate-marquee whitespace-nowrap">
+              {[...restaurantImages, ...restaurantImages].map((img, idx) => (
+                <div key={`right-${idx}`} className="inline-block w-80 flex-shrink-0">
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                    <div className="relative h-48">
+                      <img 
+                        src={img} 
+                        alt={`Restaurant ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-0 left-0 p-4 w-full">
+                        <div className="flex justify-between items-end">
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Restaurant {idx % 10 + 1}</h3>
+                            <div className="flex items-center text-yellow-400 mt-1">
+                              {[...Array(5)].map((_, i) => (
+                                <svg 
+                                  key={i} 
+                                  className={`w-4 h-4 ${i < 4 ? 'text-yellow-400' : 'text-gray-400'}`}
+                                  fill="currentColor" 
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                              ))}
+                              <span className="ml-1 text-white text-sm">({Math.floor(Math.random() * 100) + 50})</span>
+                            </div>
+                          </div>
+                          <span className="bg-red-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                            {['🍔', '🍕', '🍣', '🥗', '🍗', '🍝'][idx % 6]}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-500">$$ • {['African', 'Asian', 'Continental', 'Fusion'][idx % 4]}</span>
+                        <span className="text-sm font-medium text-green-600">Open Now</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Second Row - Moving Left */}
+          <div className="flex group">
+            <div className="flex space-x-8 animate-marquee-reverse whitespace-nowrap">
+              {[...restaurantImages, ...restaurantImages].reverse().map((img, idx) => (
+                <div key={`left-${idx}`} className="inline-block w-80 flex-shrink-0">
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                    <div className="relative h-48">
+                      <img 
+                        src={img} 
+                        alt={`Restaurant ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-0 left-0 p-4 w-full">
+                        <div className="flex justify-between items-end">
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Restaurant {idx % 10 + 1}</h3>
+                            <div className="flex items-center text-yellow-400 mt-1">
+                              {[...Array(5)].map((_, i) => (
+                                <svg 
+                                  key={i} 
+                                  className={`w-4 h-4 ${i < 4 ? 'text-yellow-400' : 'text-gray-400'}`}
+                                  fill="currentColor" 
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                              ))}
+                              <span className="ml-1 text-white text-sm">({Math.floor(Math.random() * 100) + 50})</span>
+                            </div>
+                          </div>
+                          <span className="bg-red-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                            {['🍔', '🍕', '🍣', '🥗', '🍗', '🍝'][(idx + 3) % 6]}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-500">$$ • {['African', 'Asian', 'Continental', 'Fusion'][(idx + 2) % 4]}</span>
+                        <span className="text-sm font-medium text-green-600">Open Now</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
+            <Link 
+              to="/restaurants" 
+              className="group bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3"
+            >
               Explore All Restaurants
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </Link>
-            <Link to="/menu" className="group border-2 border-gray-300 hover:border-red-500 text-gray-700 hover:text-red-600 font-semibold py-4 px-8 rounded-2xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
+            <Link 
+              to="/menu" 
+              className="group border-2 border-gray-300 hover:border-red-500 text-gray-700 hover:text-red-600 font-semibold py-4 px-8 rounded-2xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3"
+            >
               Browse Menu
               <span className="group-hover:translate-x-1 transition-transform">📋</span>
             </Link>

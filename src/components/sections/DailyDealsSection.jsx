@@ -1,87 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { FaClock, FaFire, FaPercent, FaGift, FaStar, FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
+import { FaFire, FaStar, FaArrowRight, FaUsers, FaUtensils, FaClock } from 'react-icons/fa';
 import { formatNGN } from '../../utils/currency';
+import { useNavigate } from 'react-router-dom';
 
-const dealsData = [
-  {
-    day: 'MONDAY',
-    dayShort: 'MON',
-    item: 'Fufu & Egusi Special',
-    originalPrice: 7500,
-    dealPrice: 5500,
-    discount: '27%',
-    description: 'Start your week with authentic Nigerian flavors! Includes chicken and fish options.',
-    code: 'MONDAYEGUSI',
-    image: '/assets/Foodlist/1.jpeg',
-    badge: 'POPULAR',
-    color: 'from-blue-600 to-purple-600'
-  },
-  {
-    day: 'TUESDAY',
-    dayShort: 'TUE',
-    item: 'Shawarma Combo Deal',
-    originalPrice: 7500,
-    dealPrice: 6000,
-    discount: '20%',
-    description: 'Any 2 shawarmas (chicken, beef, or mixed) + 2 drinks. Perfect for sharing!',
-    code: 'TUESHAWA',
-    image: '/assets/Foodlist/3.jpeg',
-    badge: 'COMBO',
-    color: 'from-green-600 to-teal-600'
-  },
-  {
-    day: 'WEDNESDAY',
-    dayShort: 'WED',
-    item: 'Wing Wednesday',
-    originalPrice: 4500,
-    dealPrice: 3200,
-    discount: '29%',
-    description: 'Crispy chicken wings with our signature spice blend. Dine-in or takeaway.',
-    code: 'WINGWED',
-    image: '/assets/Foodlist/21.jpeg',
-    badge: 'HOT DEAL',
-    color: 'from-orange-600 to-red-600'
-  },
-  {
-    day: 'THURSDAY',
-    dayShort: 'THU',
-    item: 'Rice & Stew Feast',
-    originalPrice: 6000,
-    dealPrice: 4500,
-    discount: '25%',
-    description: 'Choice of white rice with chicken or fish stew. Includes plantain and salad.',
-    code: 'THURRICE',
-    image: '/assets/Foodlist/15.jpeg',
-    badge: 'FEAST',
-    color: 'from-purple-600 to-pink-600'
-  },
-  {
-    day: 'FRIDAY',
-    dayShort: 'FRI',
-    item: 'Pizza & Burger Night',
-    originalPrice: 18500,
-    dealPrice: 15000,
-    discount: '19%',
-    description: 'End the week right! One large pizza + one classic burger. Perfect for date night.',
-    code: 'FRINIGHT',
-    image: '/assets/Foodlist/30.jpeg',
-    badge: 'WEEKEND',
-    color: 'from-indigo-600 to-blue-600'
-  },
-  {
-    day: 'WEEKEND',
-    dayShort: 'SAT-SUN',
-    item: 'Family Platter',
-    originalPrice: 25000,
-    dealPrice: 20000,
-    discount: '20%',
-    description: 'Feed the whole family! Mixed platter with rice, chicken, beef, and sides for 4-6 people.',
-    code: 'WEEKEND',
-    image: '/assets/Foodlist/13.jpeg',
-    badge: 'FAMILY',
-    color: 'from-red-600 to-orange-600'
-  }
-];
+// Single featured deal - Family Platter
+export const familyPlatterDeal = {
+  id: 1000, // Special ID for the family platter
+  name: 'Family Feast Platter',
+  originalPrice: 25000,
+  dealPrice: 20000,
+  discount: '20%',
+  description: 'A bountiful feast designed for the whole family! This generous platter includes a variety of our most popular dishes to satisfy every appetite.',
+  code: 'FAMILY20',
+  image: '/assets/Foodlist/13.jpeg',
+  badge: 'LIMITED OFFER',
+  color: 'from-red-600 to-orange-600',
+  includes: [
+    'Jollof Rice (serves 4-6)',
+    'Grilled Chicken (1 whole)',
+    'Fried Rice (serves 4-6)',
+    'Grilled Beef (6 skewers)',
+    'Peppered Gizzards',
+    'Fried Plantains',
+    'Coleslaw & Salad',
+    '4 Soft Drinks (50cl)'
+  ],
+  availability: 100, // Number of available uses for the promo code
+  category: 'special',
+  rating: 4.9,
+  reviews: 156,
+  description_long: 'Our signature Family Feast Platter is perfect for gatherings and special occasions. This extensive platter features a variety of our most popular dishes, including both Jollof and Fried Rice, tender grilled meats, and refreshing sides. Serves 4-6 people.'
+};
 
 const operatingHoursData = [
   { day: 'MONDAY', open: '8:00 AM', close: '10:00 PM' },
@@ -90,12 +39,12 @@ const operatingHoursData = [
   { day: 'THURSDAY', open: '8:00 AM', close: '10:00 PM' },
   { day: 'FRIDAY', open: '8:00 AM', close: '11:00 PM' },
   { day: 'SATURDAY', open: '9:00 AM', close: '11:00 PM' },
+  { day: 'SUNDAY', open: '10:00 AM', close: '9:00 PM' }
 ];
 
 const DailyDealsSection = () => {
-  const [currentDay, setCurrentDay] = useState(new Date().getDay());
-  const [selectedDeal, setSelectedDeal] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -113,20 +62,17 @@ const DailyDealsSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const getCurrentDayName = () => {
-    const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
-    return days[currentDay];
+  const handleOrderNow = () => {
+    // Navigate to the family platter item details page
+    navigate(`/item/${familyPlatterDeal.id}`, { 
+      state: { 
+        isSpecialDeal: true,
+        promoCode: familyPlatterDeal.code,
+        originalPrice: familyPlatterDeal.originalPrice,
+        availability: familyPlatterDeal.availability
+      } 
+    });
   };
-
-  const getTodaysDeal = () => {
-    const today = getCurrentDayName();
-    if (today === 'SATURDAY' || today === 'SUNDAY') {
-      return dealsData.find(deal => deal.day === 'WEEKEND');
-    }
-    return dealsData.find(deal => deal.day === today);
-  };
-
-  const todaysDeal = getTodaysDeal();
 
   return (
     <section id="daily-deals-section" className="relative w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black py-20 overflow-hidden">
@@ -146,151 +92,137 @@ const DailyDealsSection = () => {
           </div>
           
           <h2 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 mb-6 leading-tight">
-            DAILY DEALS
+            FAMILY FEAST SPECIAL
           </h2>
           
           <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Incredible savings every day of the week. Fresh flavors, unbeatable prices!
+            Limited time offer! Feed your whole family with our exclusive family platter.
           </p>
         </div>
 
-        {/* Today's Featured Deal */}
-        {todaysDeal && (
-          <div className={`mb-16 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 text-white/80 mb-4">
-                <FaCalendarAlt className="text-orange-400" />
-                <span className="text-lg font-medium">Today's Special - {getCurrentDayName()}</span>
-              </div>
-            </div>
-            
-            <div className={`relative bg-gradient-to-r ${todaysDeal.color} p-1 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-500 group`}>
-              <div className="bg-gray-900/95 backdrop-blur-sm rounded-3xl p-8 md:p-12">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  <div className="relative">
-                    <div className="absolute -top-4 -right-4 bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold animate-bounce">
-                      {todaysDeal.discount} OFF
-                    </div>
-                    <img 
-                      src={todaysDeal.image} 
-                      alt={todaysDeal.item}
-                      className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-500"
-                      onError={(e) => {
-                        e.target.src = '/assets/placeholder-food.jpg';
-                      }}
-                    />
-                  </div>
-                  
-                  <div className="text-center md:text-left">
-                    <div className="inline-block bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-full px-4 py-2 mb-4">
-                      <span className="text-orange-400 font-semibold text-sm uppercase tracking-wider">{todaysDeal.badge}</span>
-                    </div>
-                    
-                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">{todaysDeal.item}</h3>
-                    <p className="text-gray-300 text-lg mb-6 leading-relaxed">{todaysDeal.description}</p>
-                    
-                    <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
-                      <span className="text-2xl text-gray-400 line-through">{formatNGN(todaysDeal.originalPrice)}</span>
-                      <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
-                        {formatNGN(todaysDeal.dealPrice)}
-                      </span>
-                    </div>
-                    
-                    <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 mb-6">
-                      <div className="flex items-center gap-2 mb-2">
-                        <FaGift className="text-yellow-400" />
-                        <span className="text-white font-semibold">Promo Code:</span>
-                      </div>
-                      <code className="text-yellow-400 font-mono text-lg font-bold">{todaysDeal.code}</code>
-                    </div>
-                    
-                    <button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3 mx-auto md:mx-0">
-                      Order Now
-                      <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
+        {/* Family Platter Deal */}
+        <div className={`relative bg-gradient-to-r ${familyPlatterDeal.color} p-1 rounded-3xl shadow-2xl transform transition-all duration-500 group max-w-5xl mx-auto`}>
+          <div className="bg-gray-900/95 backdrop-blur-sm rounded-3xl p-8 md:p-12">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="relative">
+                <div className="absolute -top-4 -right-4 bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse">
+                  {familyPlatterDeal.discount} OFF
                 </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* All Deals Grid */}
-        <div className={`mb-16 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
-            Weekly Deal Calendar
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {dealsData.map((deal, index) => (
-              <div 
-                key={index}
-                className={`relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:border-gray-600 transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 group cursor-pointer ${
-                  deal.day === getCurrentDayName() || (deal.day === 'WEEKEND' && (getCurrentDayName() === 'SATURDAY' || getCurrentDayName() === 'SUNDAY'))
-                    ? 'ring-2 ring-orange-500 shadow-orange-500/25' 
-                    : ''
-                }`}
-                onClick={() => setSelectedDeal(selectedDeal === index ? null : index)}
-              >
-                {/* Day Badge */}
-                <div className={`absolute -top-3 -right-3 bg-gradient-to-r ${deal.color} text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg`}>
-                  {deal.dayShort}
-                </div>
-                
-                {/* Deal Badge */}
-                <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                  {deal.badge}
-                </div>
-                
                 <img 
-                  src={deal.image} 
-                  alt={deal.item}
-                  className="w-full h-48 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-500"
+                  src={familyPlatterDeal.image} 
+                  alt={familyPlatterDeal.name}
+                  className="w-full h-80 object-cover rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-500"
                   onError={(e) => {
                     e.target.src = '/assets/placeholder-food.jpg';
                   }}
                 />
+                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-red-600 to-orange-600 text-white px-6 py-2 rounded-full text-sm font-bold">
+                  Only {familyPlatterDeal.availability} available at this price!
+                </div>
+              </div>
+              
+              <div className="text-center md:text-left">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-full px-4 py-2 mb-4">
+                  <FaUsers className="text-orange-400" />
+                  <span className="text-orange-400 font-semibold text-sm uppercase tracking-wider">{familyPlatterDeal.badge}</span>
+                </div>
                 
-                <div className="space-y-3">
-                  <h4 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors">
-                    {deal.item}
-                  </h4>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-gray-400 line-through text-sm">{formatNGN(deal.originalPrice)}</span>
-                      <span className="text-green-400 font-bold text-lg">{formatNGN(deal.dealPrice)}</span>
-                    </div>
-                    <div className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                      -{deal.discount}
-                    </div>
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">{familyPlatterDeal.name}</h3>
+                <p className="text-gray-300 text-lg mb-6 leading-relaxed">{familyPlatterDeal.description}</p>
+                
+                <div className="mb-6 text-left">
+                  <h4 className="text-xl font-semibold text-white mb-3">Includes:</h4>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {familyPlatterDeal.includes.map((item, index) => (
+                      <li key={index} className="flex items-center gap-2 text-gray-300">
+                        <span className="text-orange-400">✓</span> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-6">
+                  <div className="text-center sm:text-left">
+                    <p className="text-gray-400 text-sm">Original Price</p>
+                    <span className="text-2xl text-gray-400 line-through">{formatNGN(familyPlatterDeal.originalPrice)}</span>
                   </div>
-                  
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {deal.description}
-                  </p>
-                  
-                  <div className="pt-2 border-t border-gray-700">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-400">Code:</span>
-                      <code className="text-yellow-400 font-mono font-semibold">{deal.code}</code>
-                    </div>
+                  <div className="text-center sm:text-right">
+                    <p className="text-gray-400 text-sm">Special Price</p>
+                    <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
+                      {formatNGN(familyPlatterDeal.dealPrice)}
+                    </span>
                   </div>
                 </div>
+                
+                <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 mb-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <FaUtensils className="text-orange-400" />
+                    <span className="text-orange-400 font-medium">Use code: </span>
+                    <span className="font-mono bg-gray-900 px-3 py-1 rounded-md text-yellow-400">{familyPlatterDeal.code}</span>
+                    <span className="ml-auto text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded">
+                      Limited to {familyPlatterDeal.availability} uses
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-400">Apply this code at checkout to claim your discount</p>
+                </div>
+                
+                <button 
+                  onClick={handleOrderNow}
+                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center justify-center gap-3"
+                >
+                  Order Now <FaArrowRight />
+                </button>
+                
+                <p className="text-center mt-4 text-sm text-gray-400">
+                  Only {familyPlatterDeal.availability} orders available at this price. Order now before it's gone!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Additional Info */}
+        <div className={`mt-16 text-center transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="inline-flex items-center gap-2 text-orange-400 mb-4">
+            <FaStar className="animate-pulse" />
+            <span className="font-medium">Why Choose Our Family Platter?</span>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 mt-8">
+            {[
+              {
+                icon: '🍽️',
+                title: 'Feeds 4-6 People',
+                description: 'Generous portions to satisfy the whole family with plenty to go around.'
+              },
+              {
+                icon: '⏱️',
+                title: 'Ready in 30 Minutes',
+                description: 'Prepared fresh when you order, ensuring the best quality and taste.'
+              },
+              {
+                icon: '🚚',
+                title: 'Free Delivery',
+                description: 'Complimentary delivery on all family platter orders over ₦15,000.'
+              }
+            ].map((feature, index) => (
+              <div key={index} className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700 hover:border-orange-500/50 transition-all">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h4 className="text-xl font-bold text-white mb-2">{feature.title}</h4>
+                <p className="text-gray-300">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
-
+        
         {/* Operating Hours */}
-        <div className={`text-center transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`mt-16 text-center transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8">
             <div className="flex items-center justify-center gap-3 mb-8">
               <FaClock className="text-orange-400 text-2xl" />
               <h3 className="text-3xl font-bold text-white">Operating Hours</h3>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-4">
               {operatingHoursData.map((day, index) => (
                 <div 
                   key={index} 
@@ -300,10 +232,7 @@ const DailyDealsSection = () => {
                     {day.day.slice(0, 3)}
                   </p>
                   <p className="text-gray-300 text-sm">
-                    {day.open}
-                  </p>
-                  <p className="text-gray-300 text-sm">
-                    {day.close}
+                    {day.open} - {day.close}
                   </p>
                 </div>
               ))}
