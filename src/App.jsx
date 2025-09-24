@@ -29,7 +29,6 @@ import Menu from './components/pages/Menu.jsx';
 import Footer from './components/layout/footer.jsx';
 import Home from './components/pages/Home.jsx';
 import Restaurants from './components/pages/Restaurants.jsx';
-import HeroSection from './components/sections/HeroSection';
 import PromoSection from './components/sections/PromoSection';
 import ItemDetails from './components/pages/ItemDetails.jsx'; // Updated import for ItemDetails
 import Checkout from './components/pages/Checkout.jsx'
